@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "888197483237",
+    "firebase_url": "https://refuge-recovery-7235c.firebaseio.com",
+    "project_id": "refuge-recovery-7235c",
+    "storage_bucket": "refuge-recovery-7235c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:888197483237:android:8a4f82fddf2eadc251e20c",
+        "android_client_info": {
+          "package_name": "com.refugerecovery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "888197483237-oi0pjnmcpm1gk84ob6822v1hkf0f5hsn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.refugerecovery",
+            "certificate_hash": "a1faeca557788795a5d5971dc3a67bad9a8e2374"
+          }
+        },
+        {
+          "client_id": "888197483237-htr85df4okfsd8l1jf8ijvba2l4vq1ld.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUtHa_cYTY8bEfDM94-BEP9U-nkuUmo04"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "888197483237-htr85df4okfsd8l1jf8ijvba2l4vq1ld.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "888197483237-up3d7lc1m8fae9dv7tnnv39gb6as0e6e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.refuge-recovery.rr"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
