@@ -1,19 +1,17 @@
-import 'dart:ui';
-
 import 'dart:async';
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
-import 'package:refugerecovery/data/meditation.dart';
-import 'package:intl/intl.dart';
-import 'package:refugerecovery/data/sit.dart';
-import 'package:refugerecovery/args/usersitdetails.dart';
-import 'package:refugerecovery/screens/home.dart';
-import 'package:refugerecovery/globals.dart' as globals;
+import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
+import 'package:refugerecovery/args/usersitdetails.dart';
+import 'package:refugerecovery/data/meditation.dart';
+import 'package:refugerecovery/data/sit.dart';
 import 'package:refugerecovery/locator.dart';
+import 'package:refugerecovery/screens/home.dart';
 
 class UserSitDetailsScreen extends StatefulWidget {
   static const routeName = '/user_sit_detail';
@@ -36,8 +34,7 @@ List<Meditation> parseMeditations(String responseBody) {
 class _UserSitDetailsScreenState extends State<UserSitDetailsScreen> {
   var _meditations = <Meditation>[];
   UserSitDetailsArgs arguments = locator.get<UserSitDetailsArgs>();
-  List<DropdownMenuItem<String>> meditations =
-      <DropdownMenuItem<String>>[];
+  List<DropdownMenuItem<String>> meditations = <DropdownMenuItem<String>>[];
 
   final String sitsUrl =
       'https://refugerecoverydata.azurewebsites.net/api/sits';
@@ -91,26 +88,26 @@ class _UserSitDetailsScreenState extends State<UserSitDetailsScreen> {
   bool _isLoaded = false;
   bool _isNew = false;
   Sit _currentSit;
-   _UserSitDetailsScreenState ()
-   {
-     getData().then((List<Meditation> ms) {
-       
-     });
-
-   }
+  _UserSitDetailsScreenState() {
+    getData().then((List<Meditation> ms) {});
+  }
 
   Future<List<Meditation>> getData() async {
+    _isLoaded = true;
+    return await fetchMeditations(http.Client());
 
-     return await fetchMeditations(http.Client());
-      _meditations = await fetchMeditations(http.Client());
-      _meditations.add(Meditation(
-          meditationId: '00000000-0000-0000-0000-000000000000',
-          name: '',
-          length: Duration.zero,
-          logoFileName:'',
-          language: ''));
+    /*
+    _meditations = await fetchMeditations(http.Client());
+    _meditations.add(Meditation(
+        meditationId: '00000000-0000-0000-0000-000000000000',
+        name: '',
+        length: Duration.zero,
+        logoFileName: '',
+        language: ''));
 
-      /*
+     */
+
+    /*
       setState(() {
         _meditations.toList().forEach((Meditation m) {
           meditations.add(new DropdownMenuItem<String>(
@@ -124,21 +121,11 @@ class _UserSitDetailsScreenState extends State<UserSitDetailsScreen> {
       });
 
        */
-      _isLoaded = true;
-
-
-    }
   }
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
     //final UserSitDetailsArgs args = ModalRoute.of(context).settings.arguments;
-
-
 
     //getData();
 
@@ -271,12 +258,12 @@ class _UserSitDetailsScreenState extends State<UserSitDetailsScreen> {
                       print(_currentSit.meditationId);
                     });
                   },
-                  items: _meditations.map((m) =>
-                      DropdownMenuItem(
-                        child: Text(m.name),
-                        value: m.meditationId,
-                      )
-                  ).toList(),
+                  items: _meditations
+                      .map((m) => DropdownMenuItem(
+                            child: Text(m.name),
+                            value: m.meditationId,
+                          ))
+                      .toList(),
                   value: _currentSit.meditationId,
                 ))),
             Visibility(
