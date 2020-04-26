@@ -1,11 +1,12 @@
 import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:refugerecovery/args/meetingdetails.dart';
+import 'package:refugerecovery/data/meeting.dart';
 import 'package:refugerecovery/locator.dart';
 import 'package:refugerecovery/navigator/service.dart';
-import 'package:refugerecovery/data/meeting.dart';
 import 'package:refugerecovery/screens/meeting_detail.dart';
-import 'package:refugerecovery/args/meetingdetails.dart';
 
 class MeetingsDataSource extends DataTableSource {
   final NavigationService _navigationService = locator<NavigationService>();
@@ -72,9 +73,7 @@ class MeetingsDataSource extends DataTableSource {
   }
 
   String _getSubRegion(Meeting m) {
-    return m.subRegion != null
-        ? m.subRegion
-        : m.location.toString().indexOf('Online') != -1 ? 'Online' : '';
+    return m.subRegion != null ? m.subRegion : '';
   }
 
   String _getLocation(Meeting m) {

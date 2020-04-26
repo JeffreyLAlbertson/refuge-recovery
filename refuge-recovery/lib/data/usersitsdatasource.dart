@@ -9,35 +9,28 @@ import 'package:refugerecovery/args/usersitdetails.dart';
 import 'package:intl/intl.dart';
 
 class UserSitsDataSource extends DataTableSource {
+
   final NavigationService _navigationService = locator<NavigationService>();
-  UserSitDetailsArgs arguments = locator.get<UserSitDetailsArgs>();
+
   final List<UserSit> _userSits;
   UserSitsDataSource(this._userSits);
 
   int _selectedCount = 0;
 
   TextStyle cellStyle = TextStyle(fontFamily: 'HelveticaNeue', fontSize: 18.0);
+  final DateFormat dayFormat = new DateFormat("MMM d, yyyy");
 
   void _tapCell(UserSit us) {
-    print(us.meditationId);
-    arguments = UserSitDetailsArgs(
+    var arguments = UserSitDetailsArgs(
         us.sitId,
         us.meditationId,
         us.name,
         us.date,
         us.length
     );
-    _navigationService.navigateTo(UserSitDetailsScreen.routeName,
-        arguments: UserSitDetailsArgs(
-          us.sitId,
-          us.meditationId,
-          us.name,
-          us.date,
-          us.length
-        ));
-  }
+    _navigationService.navigateTo(UserSitDetailsScreen.routeName, arguments: arguments);
 
-  final DateFormat dayFormat = new DateFormat("MMM d, yyyy");
+  }
 
   String formatDuration(Duration d) {
     String s = (new Duration(seconds: d.inSeconds)).toString();
@@ -47,6 +40,7 @@ class UserSitsDataSource extends DataTableSource {
 
   @override
   DataRow getRow(int index) {
+
     if (index >= _userSits.length) return null;
 
     final UserSit us = _userSits[index];

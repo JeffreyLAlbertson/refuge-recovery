@@ -1,25 +1,27 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:refugerecovery/data/user.dart';
+import 'package:refugerecovery/args/usersitdetails.dart';
+import 'package:refugerecovery/data/user_sit.dart';
+import 'package:refugerecovery/data/usersitsdatasource.dart';
+import 'package:refugerecovery/globals.dart' as globals;
 import 'package:refugerecovery/locator.dart';
 import 'package:refugerecovery/navigator/service.dart';
-import 'package:refugerecovery/data/meeting.dart';
-import 'package:refugerecovery/globals.dart' as globals;
-import 'package:refugerecovery/data/user_sit.dart';
-import 'package:refugerecovery/data/sit.dart';
-import 'package:refugerecovery/data/usersitsdatasource.dart';
-import 'package:refugerecovery/args/usersitdetails.dart';
 import 'package:refugerecovery/screens/user_sit_detail.dart';
 
 Future<List<UserSit>> fetchResults(http.Client client, String userId) async {
   final response = await client.get(
-      'https://refugerecoverydata.azurewebsites.net/api/sits/history/' +
-          userId);
+      'https://refugerecoverydata.azure-api.net/api/sits/history/' +
+          userId.toUpperCase(),
+      headers: {
+        "Ocp-Apim-Subscription-Key": "570fd8d1df544dc4b3fe4dcb16f631ac"
+      });
+
   return compute(parseResults, response.body);
 }
 
@@ -37,13 +39,18 @@ class UserSitsScreen extends StatefulWidget {
 
 class _UserSitsScreenState extends State<UserSitsScreen> {
   final NavigationService _navigationService = locator<NavigationService>();
-  UserSitDetailsArgs arguments = locator.get<UserSitDetailsArgs>();
+
   UserSitsDataSource _userSitsDataSource = UserSitsDataSource([]);
+
   bool isLoaded = false;
+
   int _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
+
   List<UserSit> results;
+
   TextStyle headerStyle = const TextStyle(
       fontFamily: 'HelveticaNeue', fontSize: 20.0, fontWeight: FontWeight.bold);
+
   Future<void> getData() async {
     results = await fetchResults(http.Client(), globals.currentUser.userId);
     if (!isLoaded) {
@@ -54,16 +61,17 @@ class _UserSitsScreenState extends State<UserSitsScreen> {
     }
   }
 
-  void addSit() {
-    arguments = UserSitDetailsArgs(
+  void addSit(BuildContext context) {
+    var arguments = UserSitDetailsArgs(
         '00000000-0000-0000-0000-000000000000',
-        '00000000-0000-0000-0000-000000000000',
+        'df38a4ab-614b-485f-b572-25e164a8e078'
+            .toUpperCase(), // default to silent meditation
         '',
         DateTime.now(),
         Duration.zero);
 
     _navigationService.navigateTo(UserSitDetailsScreen.routeName,
-        arguments: null);
+        arguments: arguments);
   }
 
   @override
@@ -71,34 +79,38 @@ class _UserSitsScreenState extends State<UserSitsScreen> {
     getData();
     return Center(
         child: ListView(padding: const EdgeInsets.all(10.0), children: <Widget>[
-      Column(children: <Widget>[
-        Container(
-          width: 75.0,
-          height: 50.0,
-          child: FlatButton(
-            color: Color.fromRGBO(165, 132, 41, 1),
-            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
-            onPressed: () {
-              addSit();
-            },
-            child: Text('Add'),
-          ),
-        ),
-      ]),
-      PaginatedDataTable(
-          header: Text(''),
-          rowsPerPage: _rowsPerPage,
-          onRowsPerPageChanged: (int value) {
-            setState(() {
-              _rowsPerPage = value;
-            });
+      Container(
+        alignment: Alignment.center,
+        width: 75.0,
+        height: 50.0,
+        child: FlatButton(
+          color: Color.fromRGBO(165, 132, 41, 1),
+          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+          onPressed: () {
+            addSit(context);
           },
-          columns: <DataColumn>[
-            DataColumn(label: Text('Day', style: headerStyle)),
-            DataColumn(label: Text('Length', style: headerStyle)),
-            DataColumn(label: Text('Meditation', style: headerStyle)),
-          ],
-          source: _userSitsDataSource)
+          child: Text('Add'),
+        ),
+      ),
+      Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            PaginatedDataTable(
+                header: Text(''),
+                rowsPerPage: _rowsPerPage,
+                onRowsPerPageChanged: (int value) {
+                  setState(() {
+                    _rowsPerPage = value;
+                  });
+                },
+                columns: <DataColumn>[
+                  DataColumn(label: Text('Day', style: headerStyle)),
+                  DataColumn(label: Text('Length', style: headerStyle)),
+                  DataColumn(label: Text('Meditation', style: headerStyle)),
+                ],
+                source: _userSitsDataSource)
+          ]),
     ]));
   }
 }

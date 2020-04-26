@@ -8,6 +8,9 @@ class NavigationService {
     return navigatorKey.currentState.pushNamed(routeName, arguments: arguments);
   }
 
+  Future<dynamic> navigateToRoute(MaterialPageRoute route) {
+    return navigatorKey.currentState.push(route);
+  }
   bool goBack() {
     return navigatorKey.currentState.pop();
   }

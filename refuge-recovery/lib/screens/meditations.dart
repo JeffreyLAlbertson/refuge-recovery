@@ -1,16 +1,20 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:refugerecovery/data/meditation.dart';
 import 'package:refugerecovery/screens/meditation_player.dart';
 
 Future<List<Meditation>> fetchResults(http.Client client) async {
-  final response = await client
-      .get('https://refugerecoverydata.azurewebsites.net/api/meditations');
+  final response = await client.get(
+      'https://refugerecoverydata.azure-api.net/api/meditations',
+      headers: {
+        "Ocp-Apim-Subscription-Key": "570fd8d1df544dc4b3fe4dcb16f631ac"
+      });
   return compute(parseResults, response.body);
 }
 
@@ -58,7 +62,9 @@ class _MeditationScreensState extends State<MeditationsScreen> {
     _meditations = await fetchResults(http.Client());
     if (!isLoaded) {
       setState(() {
-        _meditations.forEach((Meditation m) {
+        _meditations.where((Meditation m) {
+          return (m.logoFileName != null);
+        }).forEach((Meditation m) {
           _flatImageButtons.add(_getFlatImageButton(m));
         });
         isLoaded = true;

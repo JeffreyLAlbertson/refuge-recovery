@@ -71,6 +71,12 @@ class Meeting {
         ? formattedAddress1.substring(0, formattedAddress1.length - 1)
         : '';
 
+    String subRegion = json['sub_region'] == null &&
+            (json['location'] != null &&
+                json['location'].indexOf('Online') != -1)
+        ? 'Online'
+        : json['sub_region'];
+
     return Meeting(
         id: json['id'] as int,
         name: json['name'] as String,
@@ -95,6 +101,6 @@ class Meeting {
         longitude: json['longitude'] as num,
         regionId: json['region_id'] as int,
         region: json['region'] as String,
-        subRegion: json['sub_region'] as String);
+        subRegion: subRegion);
   }
 }

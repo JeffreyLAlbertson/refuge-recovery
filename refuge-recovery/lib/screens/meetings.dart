@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:refugerecovery/data/meeting.dart';
 import 'package:refugerecovery/data/meetingsdatasource.dart';
@@ -46,8 +47,8 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
     5: 'Fri',
     6: 'Sat'
   };
-  int dayFilter = -1;
-  String stateFilter = '';
+  int dayFilter = DateTime.now().weekday;
+  String stateFilter = 'Online';
   String subRegionFilter = '';
 
   TextEditingController nameController = new TextEditingController();
@@ -65,17 +66,6 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
   @override
   void initState() {
     super.initState();
-    subRegionController.addListener(subRegionListener);
-  }
-
-  subRegionListener() {
-    subRegionFilter = subRegionController.text;
-    _filter();
-  }
-
-  regionChange(region) {
-    subRegionFilter = region;
-    _filter();
   }
 
   void _filter() {
@@ -120,17 +110,25 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
             })
             .toSet()
             .toList()
+            .where((s) {
+              return s != 'null';
+            })
             .forEach((String s) {
               states.add(new DropdownMenuItem<String>(
                   value: s,
                   child: Text(s,
                       style: TextStyle(
-                          fontFamily: 'HelveticaNeue',
-                          fontWeight: FontWeight.bold))));
+                          fontFamily: 'HelveticaNeue', fontSize: 20.0))));
             });
         states.sort((a, b) => a.value.compareTo(b.value));
         states.insert(
-            0, new DropdownMenuItem<String>(value: '', child: Text('All')));
+            0,
+            new DropdownMenuItem<String>(
+                value: '',
+                child: Text('All',
+                    style: TextStyle(
+                        fontFamily: 'HelveticaNeue', fontSize: 20.0))));
+        _filter();
         isLoaded = true;
       });
     }
@@ -146,8 +144,7 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
         Container(
             margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
             child: Text('Day',
-                style: TextStyle(
-                    fontFamily: 'HelveticaNeue', fontWeight: FontWeight.bold))),
+                style: TextStyle(fontFamily: 'HelveticaNeue', fontSize: 20.0))),
         DropdownButton<int>(
             value: dayFilter,
             onChanged: (int newValue) {
@@ -161,16 +158,14 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
               return DropdownMenuItem<int>(
                 value: value,
                 child: Text(day[value],
-                    style: TextStyle(
-                        fontFamily: 'HelveticaNeue',
-                        fontWeight: FontWeight.bold)),
+                    style:
+                        TextStyle(fontFamily: 'HelveticaNeue', fontSize: 20.0)),
               );
             }).toList()),
         Container(
             margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
             child: Text('Region',
-                style: TextStyle(
-                    fontFamily: 'HelveticaNeue', fontWeight: FontWeight.bold))),
+                style: TextStyle(fontFamily: 'HelveticaNeue', fontSize: 20.0))),
         DropdownButton<String>(
             value: stateFilter,
             onChanged: (String newValue) {
@@ -185,12 +180,19 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
         Container(
             margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
             child: Text('Place',
-                style: TextStyle(
-                    fontFamily: 'HelveticaNeue', fontWeight: FontWeight.bold))),
+                style: TextStyle(fontFamily: 'HelveticaNeue', fontSize: 20.0))),
         Expanded(
             child: Container(
                 margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
                 child: TextField(
+                  decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black, width: 1.0),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 1.0))),
+                  style: TextStyle(fontFamily: 'HelveticaNeue', fontSize: 20.0),
                   onChanged: (newValue) {
                     setState(() {
                       subRegionFilter = newValue;
@@ -198,9 +200,7 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
                     });
                   },
                   controller: subRegionController,
-                )
-            )
-        )
+                )))
       ]),
       PaginatedDataTable(
           header: Text(''),

@@ -1,16 +1,16 @@
-import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:ui';
-import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:refugerecovery/data/meditation.dart';
 import 'package:refugerecovery/data/sit.dart';
-
 import 'package:refugerecovery/globals.dart' as globals;
 
 class MeditationsPlayerScreen extends StatefulWidget {
@@ -47,7 +47,7 @@ class Player extends StatefulWidget {
 }
 
 class _PlayerState extends State<Player> {
-  final postUrl = 'https://refugerecoverydata.azurewebsites.net/api/sits';
+  final postUrl = 'https://refugerecoverydata.azure-api.net/api/sits';
   Sit sit;
   File file;
   Duration duration = Duration.zero;
@@ -73,7 +73,8 @@ class _PlayerState extends State<Player> {
     var response = await http.post(postUrl,
         headers: {
           "Accept": "application/json",
-          "Content-Type": "application/x-www-form-urlencoded"
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Ocp-Apim-Subscription-Key": "570fd8d1df544dc4b3fe4dcb16f631ac"
         },
         body: sit.toJson());
     sit = Sit.fromJson(json.decode(response.body));
@@ -180,15 +181,18 @@ class _PlayerState extends State<Player> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
+    return ListView(shrinkWrap: true, children: [
       Container(
-          padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 0.0),
+          padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 0.0),
           child: Column(children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Visibility(
                     visible: _isStarted,
+                    maintainSize: true,
+                    maintainAnimation: true,
+                    maintainState: true,
                     child: Text('Pause/Save',
                         style: TextStyle(
                             fontFamily: 'HelveticaNeue', fontSize: 18.0)))
@@ -202,7 +206,7 @@ class _PlayerState extends State<Player> {
                   maintainState: true,
                   child: IconButton(
                       padding: EdgeInsets.all(0.0),
-                      iconSize: 80.0,
+                      iconSize: 50.0,
                       icon: Icon(Icons.save),
                       color: Color.fromRGBO(165, 132, 41, 1),
                       onPressed: () async {
@@ -220,104 +224,103 @@ class _PlayerState extends State<Player> {
                         var doUpdate = await showDialog(
                             context: context,
                             child: AlertDialog(
-                                content: Container(
-                                    child: Column(children: <Widget>[
-                              Container(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 2.5, horizontal: 5.0),
-                                  child: Text(globals.currentUser.displayName,
-                                      style: TextStyle(
-                                          fontFamily: 'HelveticaNeue',
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 24.0))),
-                              Container(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 2.5, horizontal: 5.0),
-                                  child: Text(dayFormat.format(sit.date),
-                                      style: TextStyle(
-                                          fontFamily: 'HelveticaNeue',
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20.0))),
-                              Expanded(
-                                  child: Container(
-                                      alignment: Alignment(-1.0, 0.0),
+                                content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                  Container(
                                       padding: EdgeInsets.symmetric(
-                                          vertical: 2.5, horizontal: 5.0),
+                                          vertical: 0.0, horizontal: 5.0),
+                                      child: Text(
+                                          globals.currentUser.displayName,
+                                          style: TextStyle(
+                                              fontFamily: 'HelveticaNeue',
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18.0))),
+                                  Container(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 0.0, horizontal: 5.0),
+                                      child: Text(dayFormat.format(sit.date),
+                                          style: TextStyle(
+                                              fontFamily: 'HelveticaNeue',
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16.0))),
+                                  SizedBox(height: 10.0),
+                                  Container(
+                                      alignment: Alignment.topLeft,
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 0.0, horizontal: 5.0),
                                       child: Text('Meditation',
                                           style: TextStyle(
                                               fontFamily: 'HelveticaNeue',
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 18.0)))),
-                              Expanded(
-                                  child: Container(
+                                              fontSize: 16.0))),
+                                  Container(
                                       padding: EdgeInsets.symmetric(
-                                          vertical: 2.5, horizontal: 5.0),
+                                          vertical: 5.0, horizontal: 5.0),
                                       child: Text(widget.m.name,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontFamily: 'HelveticaNeue',
-                                              fontSize: 28.0)))),
-                              Expanded(
-                                  child: Container(
+                                              fontSize: 24.0))),
+                                  Container(
                                       alignment: Alignment(-1.0, 0.0),
                                       padding: EdgeInsets.symmetric(
-                                          vertical: 2.5, horizontal: 5.0),
+                                          vertical: 0.0, horizontal: 5.0),
                                       child: Text('Duration',
                                           style: TextStyle(
                                               fontFamily: 'HelveticaNeue',
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 18.0)))),
-                              Expanded(
-                                  child: Container(
+                                              fontSize: 16.0))),
+                                  Container(
                                       padding: EdgeInsets.symmetric(
-                                          vertical: 2.5, horizontal: 5.0),
+                                          vertical: 5.0, horizontal: 5.0),
                                       child: Text(formatDuration(sit.length),
                                           style: TextStyle(
                                               fontFamily: 'HelveticaNeue',
-                                              fontSize: 48.0)))),
-                              Expanded(
-                                  child: Container(
+                                              fontSize: 24.0))),
+                                  Container(
                                       alignment: Alignment(-1.0, 0.0),
                                       padding: EdgeInsets.symmetric(
-                                          vertical: 2.5, horizontal: 5.0),
+                                          vertical: 0.0, horizontal: 5.0),
                                       child: Text('Start Time',
                                           style: TextStyle(
                                               fontFamily: 'HelveticaNeue',
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 18.0)))),
-                              Expanded(
-                                  child: Container(
+                                              fontSize: 16.0))),
+                                  Container(
                                       padding: EdgeInsets.symmetric(
-                                          vertical: 2.5, horizontal: 5.0),
+                                          vertical: 5.0, horizontal: 5.0),
                                       child: Text(
                                           timeFormat
                                               .format(sit.startTime)
                                               .toLowerCase(),
                                           style: TextStyle(
                                               fontFamily: 'HelveticaNeue',
-                                              fontSize: 28.0)))),
-                              Expanded(
-                                  child: Row(
+                                              fontSize: 24.0))),
+                                  SizedBox(height: 5.0),
+                                  Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: <Widget>[
-                                    new FlatButton(
-                                        child: Text("Save and End"),
-                                        color: Color.fromRGBO(165, 132, 41, 1),
-                                        onPressed: () async {
-                                          Navigator.pop(context, true);
-                                        }),
-                                    new Container(
-                                      width: 10.0,
-                                    ),
-                                    new FlatButton(
-                                        child: Text("Resume"),
-                                        color: Color.fromRGBO(165, 132, 41, 1),
-                                        onPressed: () async {
-                                          Navigator.pop(context, false);
-                                        }),
-                                  ]))
-                            ]))));
+                                        new FlatButton(
+                                            child: Text("Save and End"),
+                                            color:
+                                                Color.fromRGBO(165, 132, 41, 1),
+                                            onPressed: () async {
+                                              Navigator.pop(context, true);
+                                            }),
+                                        new Container(
+                                          width: 10.0,
+                                        ),
+                                        new FlatButton(
+                                            child: Text("Resume"),
+                                            color:
+                                                Color.fromRGBO(165, 132, 41, 1),
+                                            onPressed: () async {
+                                              Navigator.pop(context, false);
+                                            }),
+                                      ])
+                                ])));
 
                         if (doUpdate == null || !doUpdate) {
                           _isCounting = true;
@@ -347,32 +350,37 @@ class _PlayerState extends State<Player> {
                       }))
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-              Text('Session',
-                  style: TextStyle(fontFamily: 'HelveticaNeue', fontSize: 24.0))
-            ]),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
               Text(formatDuration(sitDuration),
-                  style: TextStyle(fontFamily: 'HelveticaNeue', fontSize: 48.0))
+                  style: TextStyle(fontFamily: 'HelveticaNeue', fontSize: 36.0))
             ]),
           ])),
-      Expanded(
-        child: Image(
-            image:
-                AssetImage('assets/meditation_icons/' + widget.m.logoFileName),
-            width: 120.0),
-      ),
       Container(
-          padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 5.0),
+          padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 5.0),
           child: Text(widget.m.name,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: "HelveticaNeue",
-                fontSize: 36.0,
+                fontSize: 24.0,
               ))),
       Visibility(
+          visible: MediaQuery.of(context).size.height >
+              MediaQuery.of(context).size.width,
+          child: Container(
+              margin: EdgeInsets.symmetric(vertical: 40.0, horizontal: 0.0),
+              child: Image(
+                image: AssetImage(
+                    'assets/meditation_icons/' + widget.m.logoFileName),
+                width: 120.0,
+                height: 120.0,
+              ))),
+      SizedBox(height: 10.0),
+      Visibility(
           visible: widget.m.fileName != null,
-          child: Text(
-              formatDuration(position) + '/' + formatDuration((duration)))),
+          child: Container(
+            child: Text(
+                formatDuration(position) + '/' + formatDuration((duration))),
+            alignment: Alignment.center,
+          )),
       Visibility(
           visible: widget.m.fileName != null,
           child: Slider(
@@ -399,7 +407,7 @@ class _PlayerState extends State<Player> {
               children: <Widget>[
                 IconButton(
                     padding: EdgeInsets.all(0.0),
-                    iconSize: 80.0,
+                    iconSize: 50.0,
                     icon:
                         _isPlaying ? Icon(Icons.stop) : Icon(Icons.play_arrow),
                     color: _isPlaying
@@ -413,10 +421,11 @@ class _PlayerState extends State<Player> {
           maintainAnimation: true,
           maintainState: true,
           child: Container(
+              alignment: Alignment.center,
               child: Text(_isPlaying ? 'Pause' : _isSilent ? 'Start' : 'Play',
                   style:
                       TextStyle(fontFamily: 'HelveticaNeue', fontSize: 18.0)))),
-      SizedBox(height: 10.0)
+      SizedBox(height: 5.0)
     ]);
   }
 }

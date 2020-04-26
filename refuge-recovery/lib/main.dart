@@ -5,8 +5,9 @@ import 'package:refugerecovery/screens/home.dart';
 import 'package:refugerecovery/screens/meeting_detail.dart';
 import 'package:refugerecovery/screens/user_sit_detail.dart';
 import 'package:refugerecovery/screens/user_sits.dart';
-import 'screens/sign_in.dart';
+
 import 'locator.dart';
+import 'screens/sign_in/sign_in.dart';
 
 void main() {
   setupLocator();

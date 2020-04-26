@@ -10,7 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:refugerecovery/args/usersitdetails.dart';
 import 'package:refugerecovery/data/meditation.dart';
 import 'package:refugerecovery/data/sit.dart';
-import 'package:refugerecovery/locator.dart';
+import 'package:refugerecovery/globals.dart' as globals;
 import 'package:refugerecovery/screens/home.dart';
 
 class UserSitDetailsScreen extends StatefulWidget {
@@ -21,8 +21,11 @@ class UserSitDetailsScreen extends StatefulWidget {
 }
 
 Future<List<Meditation>> fetchMeditations(http.Client client) async {
-  final response = await client
-      .get('https://refugerecoverydata.azurewebsites.net/api/meditations');
+  final response = await client.get(
+      'https://refugerecoverydata.azure-api.net/api/meditations',
+      headers: {
+        "Ocp-Apim-Subscription-Key": "570fd8d1df544dc4b3fe4dcb16f631ac"
+      });
   return compute(parseMeditations, response.body);
 }
 
@@ -33,11 +36,6 @@ List<Meditation> parseMeditations(String responseBody) {
 
 class _UserSitDetailsScreenState extends State<UserSitDetailsScreen> {
   var _meditations = <Meditation>[];
-  UserSitDetailsArgs arguments = locator.get<UserSitDetailsArgs>();
-  List<DropdownMenuItem<String>> meditations = <DropdownMenuItem<String>>[];
-
-  final String sitsUrl =
-      'https://refugerecoverydata.azurewebsites.net/api/sits';
 
   final DateFormat dayFormat = new DateFormat("MMMM d, yyyy");
   final DateFormat timeFormat = new DateFormat("h:mm:ss aa");
@@ -57,12 +55,15 @@ class _UserSitDetailsScreenState extends State<UserSitDetailsScreen> {
   TextStyle _headerStyle =
       const TextStyle(fontFamily: 'HelveticaNeue', fontSize: 28.0);
 
+  final String sitsUrl = 'https://refugerecoverydata.azure-api.net/api/sits';
+
   void putSit(Sit currentSit) {
     http
         .put(sitsUrl + '/' + currentSit.sitId,
             headers: {
               "Accept": "application/json",
-              "Content-Type": "application/x-www-form-urlencoded"
+              "Content-Type": "application/x-www-form-urlencoded",
+              "Ocp-Apim-Subscription-Key": "570fd8d1df544dc4b3fe4dcb16f631ac"
             },
             body: currentSit.toJson())
         .then((response) {
@@ -72,11 +73,13 @@ class _UserSitDetailsScreenState extends State<UserSitDetailsScreen> {
   }
 
   void postSit(Sit currentSit) {
+    print(currentSit.toJson());
     http
         .post(sitsUrl,
             headers: {
               "Accept": "application/json",
-              "Content-Type": "application/x-www-form-urlencoded"
+              "Content-Type": "application/x-www-form-urlencoded",
+              "Ocp-Apim-Subscription-Key": "570fd8d1df544dc4b3fe4dcb16f631ac"
             },
             body: currentSit.toJson())
         .then((response) {
@@ -87,47 +90,50 @@ class _UserSitDetailsScreenState extends State<UserSitDetailsScreen> {
 
   bool _isLoaded = false;
   bool _isNew = false;
-  Sit _currentSit;
-  _UserSitDetailsScreenState() {
-    getData().then((List<Meditation> ms) {});
-  }
 
-  Future<List<Meditation>> getData() async {
-    _isLoaded = true;
-    return await fetchMeditations(http.Client());
+  static DateTime now = DateTime.now();
 
-    /*
-    _meditations = await fetchMeditations(http.Client());
-    _meditations.add(Meditation(
-        meditationId: '00000000-0000-0000-0000-000000000000',
-        name: '',
-        length: Duration.zero,
-        logoFileName: '',
-        language: ''));
+  Sit _currentSit = Sit(
+      sitId: '00000000-0000-0000-0000-000000000000',
+      seq: 0,
+      startTime: now,
+      length: Duration.zero,
+      date: DateTime(now.year, now.month, now.day),
+      meditationId: 'df38a4ab-614b-485f-b572-25e164a8e078'.toUpperCase(),
+      userId: globals.currentUser.userId);
 
-     */
+  Future getData(UserSitDetailsArgs args) async {
+    if (!_isLoaded) {
+      _isLoaded = true;
 
-    /*
+      var result = await fetchMeditations(http.Client());
+
       setState(() {
-        _meditations.toList().forEach((Meditation m) {
-          meditations.add(new DropdownMenuItem<String>(
-              value: m.meditationId,
-              child: Text(m.name,
-                  style: TextStyle(
-                      fontFamily: 'HelveticaNeue',
-                      fontWeight: FontWeight.bold))));
+        _meditations = result;
+        _meditations.sort((a, b) {
+          return a.name.compareTo(b.name);
         });
-        meditations.add(new DropdownMenuItem(value: '00000000-0000-0000-0000-000000000000', child: Text('')));
-      });
 
-       */
+        _isNew = args.sitId == '00000000-0000-0000-0000-000000000000';
+
+        _currentSit = Sit(
+            sitId: args.sitId,
+            seq: 0,
+            startTime: args.startTime,
+            length: args.length,
+            date: DateTime(
+                args.startTime.year, args.startTime.month, args.startTime.day),
+            meditationId: args.meditationId,
+            userId: globals.currentUser.userId);
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    //final UserSitDetailsArgs args = ModalRoute.of(context).settings.arguments;
+    UserSitDetailsArgs args = ModalRoute.of(context).settings.arguments;
 
-    //getData();
+    getData(args);
 
     return Scaffold(
         appBar: AppBar(
@@ -135,25 +141,33 @@ class _UserSitDetailsScreenState extends State<UserSitDetailsScreen> {
                 style: TextStyle(fontFamily: "Helvetica", color: Colors.black)),
             backgroundColor: Color.fromRGBO(165, 132, 41, 1)),
         body: Center(
-          child: Column(children: <Widget>[
-            Expanded(
-                child: Container(
-                    alignment: Alignment(-1.0, 0.0),
-                    padding:
-                        EdgeInsets.symmetric(vertical: 2.5, horizontal: 5.0),
-                    child: Text('Day',
-                        style: TextStyle(
-                            fontFamily: 'HelveticaNeue',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.0)))),
+          child: ListView(shrinkWrap: true, children: <Widget>[
+            Container(
+                alignment: Alignment(-1.0, 0.0),
+                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                child: Text('Day',
+                    style: TextStyle(
+                        fontFamily: 'HelveticaNeue',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0))),
             Visibility(
                 visible: _isNew,
-                child: Expanded(
+                child: Container(
+                    height: 85.0,
+                    padding:
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 60.0),
                     child: CupertinoDatePicker(
                         initialDateTime: DateTime.now(),
                         onDateTimeChanged: (DateTime newDate) {
                           _currentSit.date = DateTime(
                               newDate.year, newDate.month, newDate.day);
+                          _currentSit.startTime = DateTime(
+                              _currentSit.date.year,
+                              _currentSit.date.month,
+                              _currentSit.date.day,
+                              _currentSit.startTime.hour,
+                              _currentSit.startTime.minute,
+                              _currentSit.startTime.second);
                         },
                         use24hFormat: false,
                         maximumDate: new DateTime(2100, 12, 31),
@@ -162,46 +176,43 @@ class _UserSitDetailsScreenState extends State<UserSitDetailsScreen> {
                         mode: CupertinoDatePickerMode.date))),
             Visibility(
                 visible: !_isNew,
-                child: Expanded(
-                    child: Container(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 2.5, horizontal: 5.0),
-                        child: Text(dayFormat.format(arguments.startTime),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontFamily: 'HelveticaNeue',
-                                fontSize: 28.0))))),
-            Expanded(
                 child: Container(
-                    alignment: Alignment(-1.0, 0.0),
                     padding:
-                        EdgeInsets.symmetric(vertical: 2.5, horizontal: 5.0),
-                    child: Text('Start Time',
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                    child: Text(dayFormat.format(args.startTime),
+                        textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontFamily: 'HelveticaNeue',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.0)))),
+                            fontFamily: 'HelveticaNeue', fontSize: 28.0)))),
+            Container(
+                alignment: Alignment(-1.0, 0.0),
+                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                child: Text('Start Time',
+                    style: TextStyle(
+                        fontFamily: 'HelveticaNeue',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0))),
             Visibility(
                 visible: !_isNew,
-                child: Expanded(
-                    child: Container(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 2.5, horizontal: 5.0),
-                        child: Text(timeFormat.format(arguments.startTime),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontFamily: 'HelveticaNeue',
-                                fontSize: 28.0))))),
+                child: Container(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                    child: Text(timeFormat.format(args.startTime),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: 'HelveticaNeue', fontSize: 28.0)))),
             Visibility(
                 visible: _isNew,
-                child: Expanded(
+                child: Container(
+                    height: 85.0,
+                    padding:
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 60.0),
                     child: CupertinoDatePicker(
                         initialDateTime: DateTime.now(),
                         onDateTimeChanged: (DateTime newDate) {
                           _currentSit.startTime = DateTime(
-                              newDate.year,
-                              newDate.month,
-                              newDate.day,
+                              _currentSit.date.year,
+                              _currentSit.date.month,
+                              _currentSit.date.day,
                               newDate.hour,
                               newDate.minute,
                               newDate.second);
@@ -211,72 +222,64 @@ class _UserSitDetailsScreenState extends State<UserSitDetailsScreen> {
                         minimumYear: 2020,
                         maximumYear: 2100,
                         mode: CupertinoDatePickerMode.time))),
-            Expanded(
-                child: Container(
-                    alignment: Alignment(-1.0, 0.0),
-                    padding:
-                        EdgeInsets.symmetric(vertical: 2.5, horizontal: 5.0),
-                    child: Text('Duration',
-                        style: TextStyle(
-                            fontFamily: 'HelveticaNeue',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.0)))),
-            Expanded(
-                child: Container(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 2.5, horizontal: 60.0),
-                    child: CupertinoTimerPicker(
-                      mode: CupertinoTimerPickerMode.hms,
-                      minuteInterval: 1,
-                      secondInterval: 1,
-                      initialTimerDuration: arguments.length,
-                      onTimerDurationChanged: (Duration newLength) {
-                        _currentSit.length = newLength;
-                        _currentSit.endTime =
-                            _currentSit.startTime.add(newLength);
-                      },
-                    ))),
-            Expanded(
-                child: Container(
-                    alignment: Alignment(-1.0, 0.0),
-                    padding:
-                        EdgeInsets.symmetric(vertical: 2.5, horizontal: 5.0),
-                    child: Text('Meditation',
-                        style: TextStyle(
-                            fontFamily: 'HelveticaNeue',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.0)))),
+            Container(
+                alignment: Alignment(-1.0, 0.0),
+                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                child: Text('Duration',
+                    style: TextStyle(
+                        fontFamily: 'HelveticaNeue',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0))),
+            Container(
+                height: 85.0,
+                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 60.0),
+                child: CupertinoTimerPicker(
+                  mode: CupertinoTimerPickerMode.hms,
+                  minuteInterval: 1,
+                  secondInterval: 1,
+                  initialTimerDuration: args.length,
+                  onTimerDurationChanged: (Duration newLength) {
+                    _currentSit.length = newLength;
+                    _currentSit.endTime = _currentSit.startTime.add(newLength);
+                  },
+                )),
+            Container(
+                alignment: Alignment(-1.0, 0.0),
+                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                child: Text('Meditation',
+                    style: TextStyle(
+                        fontFamily: 'HelveticaNeue',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0))),
             Visibility(
                 visible: _isNew,
-                child: Expanded(
+                child: Container(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
                     child: DropdownButton<String>(
-                  onChanged: (String newValue) {
-                    setState(() {
-                      print(_currentSit.meditationId);
-                      print(newValue);
-                      _currentSit.meditationId = newValue;
-                      print(_currentSit.meditationId);
-                    });
-                  },
-                  items: _meditations
-                      .map((m) => DropdownMenuItem(
-                            child: Text(m.name),
-                            value: m.meditationId,
-                          ))
-                      .toList(),
-                  value: _currentSit.meditationId,
-                ))),
+                      onChanged: (String newValue) {
+                        setState(() {
+                          _currentSit.meditationId = newValue;
+                        });
+                      },
+                      items: _meditations
+                          .map<DropdownMenuItem<String>>((Meditation m) {
+                        return DropdownMenuItem<String>(
+                            child: Text(m.name, style: _textStyle),
+                            value: m.meditationId.toUpperCase());
+                      }).toList(),
+                      value: _currentSit.meditationId,
+                    ))),
             Visibility(
                 visible: !_isNew,
-                child: Expanded(
-                    child: Container(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 2.5, horizontal: 5.0),
-                        child: Text(arguments.name,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontFamily: 'HelveticaNeue',
-                                fontSize: 28.0))))),
+                child: Container(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                    child: Text(args.name,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: 'HelveticaNeue', fontSize: 28.0)))),
+            SizedBox(height: 10.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -287,34 +290,49 @@ class _UserSitDetailsScreenState extends State<UserSitDetailsScreen> {
                       var doDelete = await showDialog(
                           context: context,
                           child: AlertDialog(
-                              content: Container(
-                                  child: Column(children: <Widget>[
-                            Expanded(
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                  new FlatButton(
-                                      child: Text("Delete"),
-                                      color: Color.fromRGBO(165, 132, 41, 1),
-                                      onPressed: () async {
-                                        Navigator.pop(context, true);
-                                      }),
-                                  new Container(
-                                    width: 10.0,
-                                  ),
-                                  new FlatButton(
-                                      child: Text("Cancel"),
-                                      color: Color.fromRGBO(165, 132, 41, 1),
-                                      onPressed: () async {
-                                        Navigator.pop(context, false);
-                                      }),
-                                ]))
-                          ]))));
+                              content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                Container(
+                                    alignment: Alignment.center,
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 10.0),
+                                    child: Text('Really delete?',
+                                        style: TextStyle(
+                                            fontFamily: 'HelveticaNeue',
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18.0))),
+                                Container(
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                      new FlatButton(
+                                          child: Text("Delete"),
+                                          color:
+                                              Color.fromRGBO(165, 132, 41, 1),
+                                          onPressed: () async {
+                                            Navigator.pop(context, true);
+                                          }),
+                                      new Container(
+                                        width: 10.0,
+                                      ),
+                                      new FlatButton(
+                                          child: Text("Cancel"),
+                                          color:
+                                              Color.fromRGBO(165, 132, 41, 1),
+                                          onPressed: () async {
+                                            Navigator.pop(context, false);
+                                          }),
+                                    ]))
+                              ])));
 
                       if (doDelete != null && doDelete) {
-                        http
-                            .delete(sitsUrl + '/' + arguments.sitId)
-                            .then((response) {
+                        http.delete(sitsUrl + '/' + args.sitId.toUpperCase(),
+                            headers: {
+                              "Ocp-Apim-Subscription-Key":
+                                  "570fd8d1df544dc4b3fe4dcb16f631ac"
+                            }).then((response) {
                           Navigator.pop(context);
                           Navigator.popAndPushNamed(
                               context, HomeScreen.routeNameHistory);
@@ -332,7 +350,8 @@ class _UserSitDetailsScreenState extends State<UserSitDetailsScreen> {
                 FlatButton(
                     child: Text('Submit'),
                     color: Color.fromRGBO(165, 132, 41, 1),
-                    onPressed: () async {
+                    onPressed: () {
+                      print(_currentSit.startTime);
                       if (_isNew) {
                         postSit(_currentSit);
                       } else {
@@ -341,7 +360,7 @@ class _UserSitDetailsScreenState extends State<UserSitDetailsScreen> {
                     })
               ],
             ),
-            SizedBox(height: 10.0)
+            SizedBox(height: 5.0)
           ]),
         ));
   }

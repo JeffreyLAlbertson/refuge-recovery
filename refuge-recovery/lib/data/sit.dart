@@ -21,7 +21,7 @@ class Sit {
   factory Sit.fromJson(dynamic json) {
     return Sit(
         sitId: json['sitId'].toString().toUpperCase(),
-        seq: int.parse(json['seq']),
+        seq: json['seq'],
         startTime: DateTime.parse(json['startTime']),
         endTime: DateTime.parse(json['endTime']),
         length: Duration(milliseconds: json['length']['totalMilliseconds']),
