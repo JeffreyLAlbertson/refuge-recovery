@@ -8,6 +8,8 @@ import 'package:http/http.dart' as http;
 import 'package:refugerecovery/data/user.dart';
 import 'package:refugerecovery/globals.dart' as globals;
 
+import '../home.dart';
+
 class EmailSignInForm extends StatefulWidget {
   final VoidCallback onComplete;
 
@@ -75,7 +77,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
 
     globals.currentUser = User.fromJson(json.decode(response.body));
 
-    widget.onComplete();
+    showHomeScreen();
   }
 
   @override
@@ -147,6 +149,17 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
                 onPressed: _authenticateUser,
               )
             ])));
+  }
+
+  void showHomeScreen() {
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (context) {
+          return HomeScreen(0);
+        },
+      ),
+      (_) => false,
+    );
   }
 
   @override
