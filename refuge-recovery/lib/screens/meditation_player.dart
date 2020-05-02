@@ -101,7 +101,9 @@ class _PlayerState extends State<Player> {
     if (!_isSilent) {
       player = new AudioPlayer();
       cache = new AudioCache(prefix: 'meditation_audio/');
-      cache.load(widget.m.fileName).then((f) => player.play(f.path));
+      cache
+          .load(widget.m.fileName)
+          .then((f) => player.play(f.path, isLocal: true));
       player.onAudioPositionChanged.listen((Duration p) {
         setState(() => setSliderValue(p));
       });
