@@ -1,21 +1,21 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:refugerecovery/data/stats.dart';
 import 'package:refugerecovery/globals.dart' as globals;
-import 'package:intl/intl.dart';
-import 'package:oauth2/oauth2.dart' as oauth2;
 
 Future<Stats> fetchResults(http.Client client) async {
   final response = await client.get(
       'https://refugerecoverydata.azure-api.net/api/sits/stats/' +
           globals.currentUser.userId.toUpperCase(),
       headers: {
-        "Ocp-Apim-Subscription-Key": "570fd8d1df544dc4b3fe4dcb16f631ac"
+        "Ocp-Apim-Subscription-Key": "ccc40bb65a5d41808eaadcdeab79a3ba"
       });
   return compute(parseResults, response.body);
 }

@@ -24,7 +24,7 @@ Future<List<Meditation>> fetchMeditations(http.Client client) async {
   final response = await client.get(
       'https://refugerecoverydata.azure-api.net/api/meditations',
       headers: {
-        "Ocp-Apim-Subscription-Key": "570fd8d1df544dc4b3fe4dcb16f631ac"
+        "Ocp-Apim-Subscription-Key": "ccc40bb65a5d41808eaadcdeab79a3ba"
       });
   return compute(parseMeditations, response.body);
 }
@@ -63,7 +63,7 @@ class _UserSitDetailsScreenState extends State<UserSitDetailsScreen> {
             headers: {
               "Accept": "application/json",
               "Content-Type": "application/x-www-form-urlencoded",
-              "Ocp-Apim-Subscription-Key": "570fd8d1df544dc4b3fe4dcb16f631ac"
+              "Ocp-Apim-Subscription-Key": "ccc40bb65a5d41808eaadcdeab79a3ba"
             },
             body: currentSit.toJson())
         .then((response) {
@@ -79,7 +79,7 @@ class _UserSitDetailsScreenState extends State<UserSitDetailsScreen> {
             headers: {
               "Accept": "application/json",
               "Content-Type": "application/x-www-form-urlencoded",
-              "Ocp-Apim-Subscription-Key": "570fd8d1df544dc4b3fe4dcb16f631ac"
+              "Ocp-Apim-Subscription-Key": "ccc40bb65a5d41808eaadcdeab79a3ba"
             },
             body: currentSit.toJson())
         .then((response) {
@@ -331,7 +331,7 @@ class _UserSitDetailsScreenState extends State<UserSitDetailsScreen> {
                         http.delete(sitsUrl + '/' + args.sitId.toUpperCase(),
                             headers: {
                               "Ocp-Apim-Subscription-Key":
-                                  "570fd8d1df544dc4b3fe4dcb16f631ac"
+                                  "ccc40bb65a5d41808eaadcdeab79a3ba"
                             }).then((response) {
                           Navigator.pop(context);
                           Navigator.popAndPushNamed(
