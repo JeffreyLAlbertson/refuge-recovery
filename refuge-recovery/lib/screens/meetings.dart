@@ -39,15 +39,15 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
 
   Map<int, String> day = {
     -1: 'All',
-    0: 'Sun',
-    1: 'Mon',
-    2: 'Tue',
-    3: 'Wed',
-    4: 'Thu',
-    5: 'Fri',
-    6: 'Sat'
+    0: 'Sunday',
+    1: 'Monday',
+    2: 'Tuesday',
+    3: 'Wednesday',
+    4: 'Thursday',
+    5: 'Friday',
+    6: 'Saturday'
   };
-  int dayFilter = DateTime.now().weekday;
+  int dayFilter = DateTime.now().weekday == 7 ? 0 : DateTime.now().weekday;
   String stateFilter = 'Online';
   String subRegionFilter = '';
 
@@ -161,7 +161,9 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
                     style:
                         TextStyle(fontFamily: 'HelveticaNeue', fontSize: 20.0)),
               );
-            }).toList()),
+            }).toList())
+      ]),
+      Row(children: [
         Container(
             margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
             child: Text('Region',

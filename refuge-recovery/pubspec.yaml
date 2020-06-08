@@ -84,6 +84,10 @@ flutter:
     - assets/meditation_icons/img-truth-meditation-.png
     - assets/meditation_icons/img-breathing-meditation-.png
     - assets/meditation_icons/img-silent-meditation-.png
+    - assets/meditation_icons/1.png
+    - assets/meditation_icons/2.png
+    - assets/meditation_icons/3.png
+    - assets/meditation_icons/4.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

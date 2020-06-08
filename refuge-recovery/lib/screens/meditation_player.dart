@@ -9,14 +9,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-import 'package:refugerecovery/data/meditation.dart';
+import 'package:refugerecovery/data/reading.dart';
 import 'package:refugerecovery/data/sit.dart';
 import 'package:refugerecovery/globals.dart' as globals;
 
 class MeditationsPlayerScreen extends StatefulWidget {
-  final Meditation m;
+  final Reading r;
 
-  MeditationsPlayerScreen(this.m);
+  MeditationsPlayerScreen(this.r);
 
   @override
   _MeditationsPlayerScreenState createState() =>
@@ -33,14 +33,14 @@ class _MeditationsPlayerScreenState extends State<MeditationsPlayerScreen> {
                     fontFamily: "Helvetica",
                     color: Color.fromRGBO(0, 0, 0, 1))),
             backgroundColor: Color.fromRGBO(165, 132, 41, 1)),
-        body: Center(child: Player(widget.m)));
+        body: Center(child: Player(widget.r)));
   }
 }
 
 class Player extends StatefulWidget {
-  final Meditation m;
+  final Reading r;
 
-  Player(this.m);
+  Player(this.r);
 
   @override
   _PlayerState createState() => _PlayerState();
@@ -84,7 +84,7 @@ class _PlayerState extends State<Player> {
   void dispose() {
     if (!_isSilent) {
       player.stop();
-      cache.clear(widget.m.fileName);
+      cache.clear(widget.r.fileName);
     }
     _isPlaying = false;
     super.dispose();
@@ -92,18 +92,24 @@ class _PlayerState extends State<Player> {
 
   @override
   void initState() {
-    _isSilent = widget.m.fileName == null;
-    duration = widget.m.length;
+    _isSilent = widget.r.fileName == null;
+    duration = widget.r.length;
     super.initState();
   }
 
   void _startPlayer() {
     if (!_isSilent) {
       player = new AudioPlayer();
-      cache = new AudioCache(prefix: 'meditation_audio/');
-      cache
-          .load(widget.m.fileName)
-          .then((f) => player.play(f.path, isLocal: true));
+
+      if (widget.r.isLocal) {
+        cache = new AudioCache(prefix: 'meditation_audio/');
+        cache
+            .load(widget.r.fileName)
+            .then((f) => player.play(f.path, isLocal: widget.r.isLocal));
+      } else {
+        player.play(widget.r.fileName);
+      }
+
       player.onAudioPositionChanged.listen((Duration p) {
         setState(() => setSliderValue(p));
       });
@@ -144,7 +150,7 @@ class _PlayerState extends State<Player> {
         endTime: DateTime.parse('0001-01-01'),
         length: Duration(milliseconds: 0),
         date: DateTime.now(),
-        meditationId: widget.m.meditationId,
+        meditationId: widget.r.meditationId,
         userId: globals.currentUser.userId);
   }
 
@@ -259,7 +265,15 @@ class _PlayerState extends State<Player> {
                                   Container(
                                       padding: EdgeInsets.symmetric(
                                           vertical: 5.0, horizontal: 5.0),
-                                      child: Text(widget.m.name,
+                                      child: Text(widget.r.meditationName,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontFamily: 'HelveticaNeue',
+                                              fontSize: 24.0))),
+                                  Container(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 5.0, horizontal: 5.0),
+                                      child: Text(widget.r.reader,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontFamily: 'HelveticaNeue',
@@ -358,7 +372,15 @@ class _PlayerState extends State<Player> {
           ])),
       Container(
           padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 5.0),
-          child: Text(widget.m.name,
+          child: Text(widget.r.meditationName,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: "HelveticaNeue",
+                fontSize: 24.0,
+              ))),
+      Container(
+          padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 5.0),
+          child: Text(widget.r.reader == null ? '' : widget.r.reader,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: "HelveticaNeue",
@@ -371,20 +393,20 @@ class _PlayerState extends State<Player> {
               margin: EdgeInsets.symmetric(vertical: 40.0, horizontal: 0.0),
               child: Image(
                 image: AssetImage(
-                    'assets/meditation_icons/' + widget.m.logoFileName),
+                    'assets/meditation_icons/' + widget.r.logoFileName),
                 width: 120.0,
                 height: 120.0,
               ))),
       SizedBox(height: 10.0),
       Visibility(
-          visible: widget.m.fileName != null,
+          visible: widget.r.fileName != null,
           child: Container(
             child: Text(
                 formatDuration(position) + '/' + formatDuration((duration))),
             alignment: Alignment.center,
           )),
       Visibility(
-          visible: widget.m.fileName != null,
+          visible: widget.r.fileName != null,
           child: Slider(
             value: progress,
             min: 0.0,

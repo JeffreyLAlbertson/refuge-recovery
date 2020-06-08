@@ -48,12 +48,6 @@ class _UserSitDetailsScreenState extends State<UserSitDetailsScreen> {
 
   TextStyle _textStyle =
       const TextStyle(fontFamily: 'HelveticaNeue', fontSize: 20.0);
-  TextStyle _notesStyle =
-      const TextStyle(fontFamily: 'HelveticaNeue', fontSize: 16.0);
-  TextStyle _typeStyle =
-      const TextStyle(fontFamily: 'HelveticaNeue', fontSize: 18.0);
-  TextStyle _headerStyle =
-      const TextStyle(fontFamily: 'HelveticaNeue', fontSize: 28.0);
 
   final String sitsUrl = 'https://refugerecoverydata.azure-api.net/api/sits';
 

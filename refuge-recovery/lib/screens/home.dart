@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:refugerecovery/screens/meditations.dart';
 import 'package:refugerecovery/screens/meetings.dart';
 import 'package:refugerecovery/screens/start.dart';
-import 'package:refugerecovery/screens/meditations.dart';
 import 'package:refugerecovery/screens/stats.dart';
 import 'package:refugerecovery/screens/user_sits.dart';
 
 class HomeScreen extends StatefulWidget {
-
   static const routeName = '/home';
   static const routeNameHistory = '/home/history';
 
@@ -50,26 +49,22 @@ class _HomeScreenState extends State<HomeScreen> {
           unselectedItemColor: Colors.grey,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                title: Text('Home')),
+                icon: Icon(Icons.home), title: Text('Home')),
             BottomNavigationBarItem(
-                icon: Icon(Icons.people),
-                title: Text('Meetings')),
+                icon: Icon(Icons.people), title: Text('Meetings')),
             BottomNavigationBarItem(
-                icon: Icon(Icons.audiotrack),
-                title: Text('Meditations')),
+                icon: Icon(Icons.audiotrack), title: Text('Meditations')),
             BottomNavigationBarItem(
-                icon: Icon(Icons.history),
-                title: Text('History')),
+                icon: Icon(Icons.history), title: Text('History')),
             BottomNavigationBarItem(
-                icon: Icon(Icons.menu),
-                title: Text('Stats')),
+                icon: Icon(Icons.menu), title: Text('Stats')),
           ]),
     );
   }
 
   void onTabTapped(int index) {
     setState(() {
+      debugPrint(index.toString());
       _pageIndex = index;
     });
   }
