@@ -5,21 +5,25 @@ class Stats {
   final SitRun currentRun;
   final List<SitRun> sitRuns;
 
-  Stats({this.averageLength, this.daysWithOneSession, this.firstSitDate, this.currentRun, this.sitRuns});
+  Stats(
+      {this.averageLength,
+      this.daysWithOneSession,
+      this.firstSitDate,
+      this.currentRun,
+      this.sitRuns});
 
   factory Stats.fromJson(Map<String, dynamic> json) {
-
     List<SitRun> srs = <SitRun>[];
     (json['sitRuns'] as List<dynamic>).forEach((sr) {
       srs.add(SitRun(
-        length: sr['length'],
-        startDate: DateTime.parse(sr['startDate']),
-        endDate: DateTime.parse(sr['endDate'])
-      ));
+          length: sr['length'],
+          startDate: DateTime.parse(sr['startDate']),
+          endDate: DateTime.parse(sr['endDate'])));
     });
 
     return Stats(
-        averageLength: Duration(milliseconds: json['averageLength']['totalMilliseconds'].round()),
+        averageLength: Duration(
+            milliseconds: json['averageLength']['totalMilliseconds'].round()),
         daysWithOneSession: json['daysWithOneSession'] as int,
         firstSitDate: DateTime.parse(json['firstSessionDate']),
         currentRun: SitRun.fromJson(json['currentRun']),
@@ -45,11 +49,14 @@ class SitRun {
   SitRun({this.length, this.startDate, this.endDate});
 
   factory SitRun.fromJson(Map<String, dynamic> json) {
-    return SitRun(
-        length: json['length'],
-        startDate: DateTime.parse(json['startDate']),
-        endDate: DateTime.parse(json['endDate'])
-    );
+    if (json == null) {
+      return SitRun(length: 0, startDate: DateTime(0), endDate: DateTime(0));
+    } else {
+      return SitRun(
+          length: json['length'],
+          startDate: DateTime.parse(json['startDate']),
+          endDate: DateTime.parse(json['endDate']));
+    }
   }
 
   Map<String, dynamic> toJson() {
