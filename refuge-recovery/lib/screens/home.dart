@@ -4,6 +4,7 @@ import 'package:refugerecovery/screens/meetings.dart';
 import 'package:refugerecovery/screens/start.dart';
 import 'package:refugerecovery/screens/stats.dart';
 import 'package:refugerecovery/screens/user_sits.dart';
+import 'package:refugerecovery/screens/videos.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -27,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget> _children = [
     StartScreen(),
+    VideosScreen(),
     MeetingsScreen(),
     MeditationsScreen(),
     UserSitsScreen(),
@@ -50,6 +52,8 @@ class _HomeScreenState extends State<HomeScreen> {
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
                 icon: Icon(Icons.home), title: Text('Home')),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.video_library), title: Text('Videos')),
             BottomNavigationBarItem(
                 icon: Icon(Icons.people), title: Text('Meetings')),
             BottomNavigationBarItem(
