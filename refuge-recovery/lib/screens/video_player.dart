@@ -48,6 +48,9 @@ class _VideosPlayerScreenState extends State<VideosPlayerScreen> {
   bool _seekingToZero = false;
 
   void _listener() {
+    if (!mounted) {
+      return;
+    }
     setState(() {
       int pos = _controller.value.position.inMilliseconds;
       int dur = _controller.value.duration.inMilliseconds;
@@ -113,8 +116,8 @@ class _VideosPlayerScreenState extends State<VideosPlayerScreen> {
                               icon: Icon(_controller.value.isPlaying
                                   ? Icons.pause
                                   : Icons.play_arrow),
-                              iconSize: 250.0,
-                              color: Colors.blue,
+                              iconSize: 150.0,
+                              color: Color.fromRGBO(165, 132, 41, 1),
                               onPressed: () {
                                 _controller.value.isPlaying
                                     ? _controller.pause()
@@ -124,33 +127,38 @@ class _VideosPlayerScreenState extends State<VideosPlayerScreen> {
                               }),
                         ),
                       ),
-                      Container(
-                          alignment: Alignment.bottomCenter,
-                          child: Container(
-                            height: 24.0,
-                            alignment: Alignment.topCenter,
-                            child: SliderTheme(
-                              data: SliderTheme.of(context).copyWith(
-                                trackHeight: 8.0,
+                      Visibility(
+                        visible: _buttonVisible,
+                        child: Container(
+                            alignment: Alignment.bottomCenter,
+                            child: Container(
+                              height: 24.0,
+                              alignment: Alignment.topCenter,
+                              child: SliderTheme(
+                                data: SliderTheme.of(context).copyWith(
+                                    trackHeight: 8.0,
+                                    thumbColor:
+                                        Color.fromRGBO(165, 132, 41, 1)),
+                                child: Slider(
+                                  value: _progress,
+                                  activeColor: Color.fromRGBO(165, 132, 41, 1),
+                                  inactiveColor: Colors.grey,
+                                  onChanged: (double value) {
+                                    setState(() {
+                                      _progress = value;
+                                      if (_progress > 0) {
+                                        _controller.seekTo(Duration(
+                                            milliseconds: (value *
+                                                    _controller.value.duration
+                                                        .inMilliseconds)
+                                                .toInt()));
+                                      }
+                                    });
+                                  },
+                                ),
                               ),
-                              child: Slider(
-                                value: _progress,
-                                inactiveColor: Colors.red,
-                                onChanged: (double value) {
-                                  setState(() {
-                                    _progress = value;
-                                    if (_progress > 0) {
-                                      _controller.seekTo(Duration(
-                                          milliseconds: (value *
-                                                  _controller.value.duration
-                                                      .inMilliseconds)
-                                              .toInt()));
-                                    }
-                                  });
-                                },
-                              ),
-                            ),
-                          )),
+                            )),
+                      ),
                     ]),
                   ),
                 ),
