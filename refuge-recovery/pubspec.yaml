@@ -26,9 +26,10 @@ dependencies:
   webfeed: ^0.4.2
   flutter_html: ^0.11.1
   flutter:
-    sdk: flutter
+    sdk:
   intl:
   flutter_facebook_login: ^3.0.0
+  flutter_markdown: ^0.4.2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -68,10 +69,12 @@ flutter:
     - assets/meditation_audio/tonglen.mp3
     - assets/meditation_audio/mindfulness-of-the-breath-and-body.mp3
     - assets/meditation_audio/mindfulness-of-the-feeling-tone.mp3
+    - assets/meditation_audio/mindfulness-of-the-feeling-tone-jenna.mp3
     - assets/meditation_audio/mindfulness-of-the-mind-content.mp3
     - assets/meditation_audio/mindfulness-of-the-mind-process.mp3
     - assets/meditation_audio/mindfulness-of-the-truth.mp3
     - assets/meditation_audio/mindfulness-of-breathing.mp3
+    - assets/meditation_audio/mindfulness-of-breathing-jenna.mp3
     - assets/meditation_icons/img-metta-meditation-.png
     - assets/meditation_icons/img-appreciation-meditation-.png
     - assets/meditation_icons/img-forgiveness-meditation-.png

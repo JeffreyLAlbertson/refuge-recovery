@@ -14,6 +14,7 @@ import 'package:refugerecovery/screens/meditations.dart';
 import 'package:refugerecovery/screens/start.dart';
 import 'package:refugerecovery/screens/stats.dart';
 import 'package:refugerecovery/screens/user_sits.dart';
+import 'package:refugerecovery/screens/videos.dart';
 
 import 'meetings.dart';
 
@@ -42,12 +43,13 @@ class ReadingsScreen extends StatefulWidget {
 }
 
 class _ReadingsScreensState extends State<ReadingsScreen> {
-  int _pageIndex = 2;
+  int _pageIndex = 3;
   List<Reading> _readings = <Reading>[];
   Widget _screenBody;
 
   final List<Widget> _children = [
     StartScreen(),
+    VideosScreen(),
     MeetingsScreen(),
     MeditationsScreen(),
     UserSitsScreen(),
@@ -60,7 +62,7 @@ class _ReadingsScreensState extends State<ReadingsScreen> {
 
   List<FlatButton> _getReadingButtons(BuildContext context) {
     List<FlatButton> readingButtons = [];
-    int index = 1;
+    int index = 0;
     _readings.forEach((Reading r) {
       readingButtons.add(FlatButton(
         padding: EdgeInsets.all(5),
@@ -72,7 +74,7 @@ class _ReadingsScreensState extends State<ReadingsScreen> {
           children: <Widget>[
             Image(
               image: AssetImage('assets/meditation_icons/' +
-                  ((index + 1) % 4).toString() +
+                  (((index++) % 4) + 1).toString() +
                   '.png'),
               width: 60.0,
             ),
@@ -86,7 +88,6 @@ class _ReadingsScreensState extends State<ReadingsScreen> {
           ],
         ),
       ));
-      index++;
     });
     return readingButtons;
   }
@@ -146,6 +147,8 @@ class _ReadingsScreensState extends State<ReadingsScreen> {
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                   icon: Icon(Icons.home), title: Text('Home')),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.video_library), title: Text('Videos')),
               BottomNavigationBarItem(
                   icon: Icon(Icons.people), title: Text('Meetings')),
               BottomNavigationBarItem(
