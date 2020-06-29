@@ -26,7 +26,7 @@ dependencies:
   webfeed: ^0.4.2
   flutter_html: ^0.11.1
   flutter:
-    sdk:
+    sdk: flutter
   intl:
   flutter_facebook_login: ^3.0.0
   flutter_markdown: ^0.4.2
@@ -128,3 +128,7 @@ flutter:
           weight: 500
         - asset: assets/fonts/HelveticaNeueBd.ttf
           weight: 800
+    - family: Metropolis
+      fonts:
+        - asset: assets/fonts/Metropolis-Regular.otf
+        - asset: assets/fonts/Metropolis-SemiBold.otf

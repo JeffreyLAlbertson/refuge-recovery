@@ -52,15 +52,18 @@ class _MeditationScreensState extends State<MeditationsScreen> {
             children: <Widget>[
               Image(
                 image: AssetImage('assets/meditation_icons/' + m.logoFileName),
-                width: 60.0,
+                width: 80.0,
               ),
               SizedBox(
-                  width: 85.0,
+                  width: 100.0,
                   child: Text(m.name,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontFamily: 'HelveticaNeue',
-                          fontWeight: FontWeight.bold)))
+                        fontFamily: 'Metropolis',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14.0,
+                        color: Color.fromRGBO(35, 40, 45, 1),
+                      )))
             ],
           ),
         ));
@@ -83,6 +86,7 @@ class _MeditationScreensState extends State<MeditationsScreen> {
         child: ListView(children: [
       Container(
           margin: EdgeInsets.symmetric(horizontal: 5),
+          color: Color.fromRGBO(238, 236, 230, 1),
           child: Wrap(
               alignment: WrapAlignment.center,
               children: _meditationFlatImageButtons))

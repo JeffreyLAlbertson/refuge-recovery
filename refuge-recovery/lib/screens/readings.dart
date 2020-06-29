@@ -83,8 +83,7 @@ class _ReadingsScreensState extends State<ReadingsScreen> {
                 child: Text(r.reader == null ? '' : r.reader,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontFamily: 'HelveticaNeue',
-                        fontWeight: FontWeight.bold)))
+                        fontFamily: 'Metropolis', fontWeight: FontWeight.bold)))
           ],
         ),
       ));
@@ -95,16 +94,19 @@ class _ReadingsScreensState extends State<ReadingsScreen> {
   setScreenBody(BuildContext context) {
     setState(() {
       _screenBody = Center(
-          child: ListView(children: [
-        SizedBox(height: 15.0),
-        Text(widget.m.name,
-            textAlign: TextAlign.center,
-            style: TextStyle(fontFamily: 'HelveticaNeue', fontSize: 36.0)),
-        SizedBox(height: 15.0),
-        Wrap(
-            alignment: WrapAlignment.center,
-            children: _getReadingButtons(context))
-      ]));
+          child: Container(
+        color: Color.fromRGBO(238, 236, 230, 1),
+        child: ListView(children: [
+          SizedBox(height: 15.0),
+          Text(widget.m.name,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontFamily: 'Metropolis', fontSize: 36.0)),
+          SizedBox(height: 15.0),
+          Wrap(
+              alignment: WrapAlignment.center,
+              children: _getReadingButtons(context))
+        ]),
+      ));
     });
   }
 
@@ -135,28 +137,42 @@ class _ReadingsScreensState extends State<ReadingsScreen> {
         appBar: AppBar(
             title: Text("Refuge Recovery",
                 style: TextStyle(
-                    fontFamily: "Helvetica",
-                    color: Color.fromRGBO(0, 0, 0, 1))),
+                    fontFamily: "Metropolis",
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromRGBO(35, 40, 45, 1))),
             backgroundColor: Color.fromRGBO(165, 132, 41, 1)),
+        backgroundColor: Color.fromRGBO(238, 236, 230, 1),
         body: _screenBody,
         bottomNavigationBar: BottomNavigationBar(
             onTap: onTabTapped,
             currentIndex: _pageIndex,
             selectedItemColor: Color.fromRGBO(165, 132, 41, 1),
-            unselectedItemColor: Colors.grey,
+            unselectedItemColor: Color.fromRGBO(35, 40, 45, 1),
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                  icon: Icon(Icons.home), title: Text('Home')),
+                  backgroundColor: Color.fromRGBO(238, 236, 230, 1),
+                  icon: Icon(Icons.home),
+                  title: Text('Home')),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.video_library), title: Text('Videos')),
+                  backgroundColor: Color.fromRGBO(238, 236, 230, 1),
+                  icon: Icon(Icons.video_library),
+                  title: Text('Videos')),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.people), title: Text('Meetings')),
+                  backgroundColor: Color.fromRGBO(238, 236, 230, 1),
+                  icon: Icon(Icons.people),
+                  title: Text('Meetings')),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.audiotrack), title: Text('Meditations')),
+                  backgroundColor: Color.fromRGBO(238, 236, 230, 1),
+                  icon: Icon(Icons.audiotrack),
+                  title: Text('Meditations')),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.history), title: Text('History')),
+                  backgroundColor: Color.fromRGBO(238, 236, 230, 1),
+                  icon: Icon(Icons.history),
+                  title: Text('History')),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.menu), title: Text('Stats')),
+                  backgroundColor: Color.fromRGBO(238, 236, 230, 1),
+                  icon: Icon(Icons.menu),
+                  title: Text('Stats')),
             ]));
   }
 }

@@ -5,9 +5,5 @@ class UserSitDetailsArgs {
   final DateTime startTime;
   final Duration length;
   UserSitDetailsArgs(
-      this.sitId,
-      this.meditationId,
-      this.name,
-      this.startTime,
-      this.length);
+      this.sitId, this.meditationId, this.name, this.startTime, this.length);
 }

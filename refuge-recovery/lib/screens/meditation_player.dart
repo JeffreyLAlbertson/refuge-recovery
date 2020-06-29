@@ -30,7 +30,7 @@ class _MeditationsPlayerScreenState extends State<MeditationsPlayerScreen> {
         appBar: AppBar(
             title: Text("Refuge Recovery",
                 style: TextStyle(
-                    fontFamily: "Helvetica",
+                    fontFamily: "Metropolis",
                     color: Color.fromRGBO(0, 0, 0, 1))),
             backgroundColor: Color.fromRGBO(165, 132, 41, 1)),
         body: Center(child: Player(widget.r)));
@@ -203,7 +203,7 @@ class _PlayerState extends State<Player> {
                     maintainState: true,
                     child: Text('Pause/Save',
                         style: TextStyle(
-                            fontFamily: 'HelveticaNeue', fontSize: 18.0)))
+                            fontFamily: 'Metropolis', fontSize: 18.0)))
               ],
             ),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
@@ -241,7 +241,7 @@ class _PlayerState extends State<Player> {
                                       child: Text(
                                           globals.currentUser.displayName,
                                           style: TextStyle(
-                                              fontFamily: 'HelveticaNeue',
+                                              fontFamily: 'Metropolis',
                                               fontWeight: FontWeight.bold,
                                               fontSize: 18.0))),
                                   Container(
@@ -249,7 +249,7 @@ class _PlayerState extends State<Player> {
                                           vertical: 0.0, horizontal: 5.0),
                                       child: Text(dayFormat.format(sit.date),
                                           style: TextStyle(
-                                              fontFamily: 'HelveticaNeue',
+                                              fontFamily: 'Metropolis',
                                               fontWeight: FontWeight.bold,
                                               fontSize: 16.0))),
                                   SizedBox(height: 10.0),
@@ -259,7 +259,7 @@ class _PlayerState extends State<Player> {
                                           vertical: 0.0, horizontal: 5.0),
                                       child: Text('Meditation',
                                           style: TextStyle(
-                                              fontFamily: 'HelveticaNeue',
+                                              fontFamily: 'Metropolis',
                                               fontWeight: FontWeight.bold,
                                               fontSize: 16.0))),
                                   Container(
@@ -268,7 +268,7 @@ class _PlayerState extends State<Player> {
                                       child: Text(widget.r.meditationName,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
-                                              fontFamily: 'HelveticaNeue',
+                                              fontFamily: 'Metropolis',
                                               fontSize: 24.0))),
                                   Container(
                                       padding: EdgeInsets.symmetric(
@@ -276,7 +276,7 @@ class _PlayerState extends State<Player> {
                                       child: Text(widget.r.reader,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
-                                              fontFamily: 'HelveticaNeue',
+                                              fontFamily: 'Metropolis',
                                               fontSize: 24.0))),
                                   Container(
                                       alignment: Alignment(-1.0, 0.0),
@@ -284,7 +284,7 @@ class _PlayerState extends State<Player> {
                                           vertical: 0.0, horizontal: 5.0),
                                       child: Text('Duration',
                                           style: TextStyle(
-                                              fontFamily: 'HelveticaNeue',
+                                              fontFamily: 'Metropolis',
                                               fontWeight: FontWeight.bold,
                                               fontSize: 16.0))),
                                   Container(
@@ -292,7 +292,7 @@ class _PlayerState extends State<Player> {
                                           vertical: 5.0, horizontal: 5.0),
                                       child: Text(formatDuration(sit.length),
                                           style: TextStyle(
-                                              fontFamily: 'HelveticaNeue',
+                                              fontFamily: 'Metropolis',
                                               fontSize: 24.0))),
                                   Container(
                                       alignment: Alignment(-1.0, 0.0),
@@ -300,7 +300,7 @@ class _PlayerState extends State<Player> {
                                           vertical: 0.0, horizontal: 5.0),
                                       child: Text('Start Time',
                                           style: TextStyle(
-                                              fontFamily: 'HelveticaNeue',
+                                              fontFamily: 'Metropolis',
                                               fontWeight: FontWeight.bold,
                                               fontSize: 16.0))),
                                   Container(
@@ -311,7 +311,7 @@ class _PlayerState extends State<Player> {
                                               .format(sit.startTime)
                                               .toLowerCase(),
                                           style: TextStyle(
-                                              fontFamily: 'HelveticaNeue',
+                                              fontFamily: 'Metropolis',
                                               fontSize: 24.0))),
                                   SizedBox(height: 5.0),
                                   Row(
@@ -367,7 +367,7 @@ class _PlayerState extends State<Player> {
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
               Text(formatDuration(sitDuration),
-                  style: TextStyle(fontFamily: 'HelveticaNeue', fontSize: 36.0))
+                  style: TextStyle(fontFamily: 'Metropolis', fontSize: 36.0))
             ]),
           ])),
       Container(
@@ -375,7 +375,7 @@ class _PlayerState extends State<Player> {
           child: Text(widget.r.meditationName,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontFamily: "HelveticaNeue",
+                fontFamily: "Metropolis",
                 fontSize: 24.0,
               ))),
       Container(
@@ -383,7 +383,7 @@ class _PlayerState extends State<Player> {
           child: Text(widget.r.reader == null ? '' : widget.r.reader,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontFamily: "HelveticaNeue",
+                fontFamily: "Metropolis",
                 fontSize: 24.0,
               ))),
       Visibility(
@@ -402,7 +402,8 @@ class _PlayerState extends State<Player> {
           visible: widget.r.fileName != null,
           child: Container(
             child: Text(
-                formatDuration(position) + '/' + formatDuration((duration))),
+                formatDuration(position) + '/' + formatDuration((duration)),
+                style: TextStyle(fontFamily: 'Metropolis')),
             alignment: Alignment.center,
           )),
       Visibility(
@@ -447,8 +448,7 @@ class _PlayerState extends State<Player> {
           child: Container(
               alignment: Alignment.center,
               child: Text(_isPlaying ? 'Pause' : _isSilent ? 'Start' : 'Play',
-                  style:
-                      TextStyle(fontFamily: 'HelveticaNeue', fontSize: 18.0)))),
+                  style: TextStyle(fontFamily: 'Metropolis', fontSize: 18.0)))),
       SizedBox(height: 5.0)
     ]);
   }

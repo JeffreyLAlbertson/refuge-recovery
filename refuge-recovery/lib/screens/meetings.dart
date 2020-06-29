@@ -55,7 +55,7 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
   TextEditingController subRegionController = new TextEditingController();
 
   TextStyle headerStyle = const TextStyle(
-      fontFamily: 'HelveticaNeue', fontSize: 24.0, fontWeight: FontWeight.bold);
+      fontFamily: 'Metropolis', fontSize: 24.0, fontWeight: FontWeight.bold);
 
   @override
   void dispose() {
@@ -118,7 +118,7 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
                   value: s,
                   child: Text(s,
                       style: TextStyle(
-                          fontFamily: 'HelveticaNeue', fontSize: 20.0))));
+                          fontFamily: 'Metropolis', fontSize: 20.0))));
             });
         states.sort((a, b) => a.value.compareTo(b.value));
         states.insert(
@@ -126,8 +126,8 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
             new DropdownMenuItem<String>(
                 value: '',
                 child: Text('All',
-                    style: TextStyle(
-                        fontFamily: 'HelveticaNeue', fontSize: 20.0))));
+                    style:
+                        TextStyle(fontFamily: 'Metropolis', fontSize: 20.0))));
         _filter();
         isLoaded = true;
       });
@@ -144,7 +144,7 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
         Container(
             margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
             child: Text('Day',
-                style: TextStyle(fontFamily: 'HelveticaNeue', fontSize: 20.0))),
+                style: TextStyle(fontFamily: 'Metropolis', fontSize: 20.0))),
         DropdownButton<int>(
             value: dayFilter,
             onChanged: (int newValue) {
@@ -158,8 +158,7 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
               return DropdownMenuItem<int>(
                 value: value,
                 child: Text(day[value],
-                    style:
-                        TextStyle(fontFamily: 'HelveticaNeue', fontSize: 20.0)),
+                    style: TextStyle(fontFamily: 'Metropolis', fontSize: 20.0)),
               );
             }).toList())
       ]),
@@ -167,7 +166,7 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
         Container(
             margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
             child: Text('Region',
-                style: TextStyle(fontFamily: 'HelveticaNeue', fontSize: 20.0))),
+                style: TextStyle(fontFamily: 'Metropolis', fontSize: 20.0))),
         DropdownButton<String>(
             value: stateFilter,
             onChanged: (String newValue) {
@@ -182,7 +181,7 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
         Container(
             margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
             child: Text('Place',
-                style: TextStyle(fontFamily: 'HelveticaNeue', fontSize: 20.0))),
+                style: TextStyle(fontFamily: 'Metropolis', fontSize: 20.0))),
         Expanded(
             child: Container(
                 margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
@@ -194,7 +193,7 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
                       enabledBorder: OutlineInputBorder(
                           borderSide:
                               BorderSide(color: Colors.grey, width: 1.0))),
-                  style: TextStyle(fontFamily: 'HelveticaNeue', fontSize: 20.0),
+                  style: TextStyle(fontFamily: 'Metropolis', fontSize: 20.0),
                   onChanged: (newValue) {
                     setState(() {
                       subRegionFilter = newValue;

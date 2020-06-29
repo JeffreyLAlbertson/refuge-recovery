@@ -64,11 +64,11 @@ class _StatsScreenState extends State<StatsScreen> {
     _tableRows.add(TableRow(children: [
       Column(children: [
         Text('Consecutive Days',
-            style: TextStyle(fontFamily: 'HelveticaNeue', fontSize: 16.0))
+            style: TextStyle(fontFamily: 'Metropolis', fontSize: 16.0))
       ]),
       Column(children: [
         Text('End Date',
-            style: TextStyle(fontFamily: 'HelveticaNeue', fontSize: 16.0))
+            style: TextStyle(fontFamily: 'Metropolis', fontSize: 16.0))
       ])
     ]));
 
@@ -76,11 +76,11 @@ class _StatsScreenState extends State<StatsScreen> {
       _tableRows.add(TableRow(children: [
         Column(children: [
           Text(sr.length.toString(),
-              style: TextStyle(fontFamily: 'HelveticaNeue', fontSize: 20.0))
+              style: TextStyle(fontFamily: 'Metropolis', fontSize: 20.0))
         ]),
         Column(children: [
           Text(dayFormat.format(sr.endDate),
-              style: TextStyle(fontFamily: 'HelveticaNeue', fontSize: 20.0))
+              style: TextStyle(fontFamily: 'Metropolis', fontSize: 20.0))
         ])
       ]));
     });
@@ -94,7 +94,7 @@ class _StatsScreenState extends State<StatsScreen> {
           height: 30.0,
           child: Text(globals.currentUser.displayName,
               style: TextStyle(
-                  fontFamily: 'HelveticaNeue',
+                  fontFamily: 'Metropolis',
                   fontWeight: FontWeight.bold,
                   fontSize: 24.0))),
       SizedBox(height: 25.0),
@@ -102,42 +102,42 @@ class _StatsScreenState extends State<StatsScreen> {
           height: 25.0,
           child: Text('Consecutive Days',
               style: TextStyle(
-                  fontFamily: 'HelveticaNeue',
+                  fontFamily: 'Metropolis',
                   fontWeight: FontWeight.bold,
                   fontSize: 18.0))),
       Container(
           height: 45.0,
           child: Text(_stats.currentRun.length.toString(),
               textAlign: TextAlign.center,
-              style: TextStyle(fontFamily: 'HelveticaNeue', fontSize: 36.0))),
+              style: TextStyle(fontFamily: 'Metropolis', fontSize: 36.0))),
       Container(
           height: 24.0,
           child: Text('as of',
               textAlign: TextAlign.center,
-              style: TextStyle(fontFamily: 'HelveticaNeue', fontSize: 16.0))),
+              style: TextStyle(fontFamily: 'Metropolis', fontSize: 16.0))),
       Container(
           height: 36.0,
           child: Text(dayFormat.format(_stats.currentRun.endDate),
               textAlign: TextAlign.center,
-              style: TextStyle(fontFamily: 'HelveticaNeue', fontSize: 20.0))),
+              style: TextStyle(fontFamily: 'Metropolis', fontSize: 20.0))),
       SizedBox(height: 25.0),
       Container(
           child: Text('Average Length',
               style: TextStyle(
-                  fontFamily: 'HelveticaNeue',
+                  fontFamily: 'Metropolis',
                   fontWeight: FontWeight.bold,
                   fontSize: 18.0))),
       Container(
           height: 45.0,
           //padding: EdgeInsets.symmetric(vertical: 2.5, horizontal: 5.0),
           child: Text(formatDuration(_stats.averageLength),
-              style: TextStyle(fontFamily: 'HelveticaNeue', fontSize: 36.0))),
+              style: TextStyle(fontFamily: 'Metropolis', fontSize: 36.0))),
       SizedBox(height: 25.0),
       Container(
           height: 25.0,
           child: Text('Longest Runs',
               style: TextStyle(
-                  fontFamily: 'HelveticaNeue',
+                  fontFamily: 'Metropolis',
                   fontWeight: FontWeight.bold,
                   fontSize: 18.0))),
       SizedBox(height: 5.0),
@@ -148,18 +148,18 @@ class _StatsScreenState extends State<StatsScreen> {
       Container(
           child: Text('Days with at Least One Sit',
               style: TextStyle(
-                  fontFamily: 'HelveticaNeue',
+                  fontFamily: 'Metropolis',
                   fontWeight: FontWeight.bold,
                   fontSize: 18.0))),
       Container(
           height: 45.0,
           child: Text(_stats.daysWithOneSession.toString(),
-              style: TextStyle(fontFamily: 'HelveticaNeue', fontSize: 36.0))),
+              style: TextStyle(fontFamily: 'Metropolis', fontSize: 36.0))),
       Container(
           height: 40.0,
           child: Text('since ' + dayFormat.format(_stats.firstSitDate),
               textAlign: TextAlign.center,
-              style: TextStyle(fontFamily: 'HelveticaNeue', fontSize: 16.0))),
+              style: TextStyle(fontFamily: 'Metropolis', fontSize: 16.0))),
       SizedBox(height: 10.0)
     ];
   }

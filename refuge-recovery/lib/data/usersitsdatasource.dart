@@ -1,15 +1,15 @@
 import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:refugerecovery/args/usersitdetails.dart';
+import 'package:refugerecovery/data/user_sit.dart';
 import 'package:refugerecovery/locator.dart';
 import 'package:refugerecovery/navigator/service.dart';
-import 'package:refugerecovery/data/user_sit.dart';
 import 'package:refugerecovery/screens/user_sit_detail.dart';
-import 'package:refugerecovery/args/usersitdetails.dart';
-import 'package:intl/intl.dart';
 
 class UserSitsDataSource extends DataTableSource {
-
   final NavigationService _navigationService = locator<NavigationService>();
 
   final List<UserSit> _userSits;
@@ -17,19 +17,14 @@ class UserSitsDataSource extends DataTableSource {
 
   int _selectedCount = 0;
 
-  TextStyle cellStyle = TextStyle(fontFamily: 'HelveticaNeue', fontSize: 18.0);
+  TextStyle cellStyle = TextStyle(fontFamily: 'Metropolis', fontSize: 18.0);
   final DateFormat dayFormat = new DateFormat("MMM d, yyyy");
 
   void _tapCell(UserSit us) {
     var arguments = UserSitDetailsArgs(
-        us.sitId,
-        us.meditationId,
-        us.name,
-        us.date,
-        us.length
-    );
-    _navigationService.navigateTo(UserSitDetailsScreen.routeName, arguments: arguments);
-
+        us.sitId, us.meditationId, us.name, us.date, us.length);
+    _navigationService.navigateTo(UserSitDetailsScreen.routeName,
+        arguments: arguments);
   }
 
   String formatDuration(Duration d) {
@@ -40,7 +35,6 @@ class UserSitsDataSource extends DataTableSource {
 
   @override
   DataRow getRow(int index) {
-
     if (index >= _userSits.length) return null;
 
     final UserSit us = _userSits[index];

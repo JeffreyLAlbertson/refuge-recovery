@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:refugerecovery/args/meetingdetails.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MeetingDetailsScreen extends StatefulWidget {
   static const routeName = '/meeting_detail';
@@ -66,7 +66,7 @@ class _MeetingDetailsScreenState extends State<MeetingDetailsScreen> {
           }),
       Text(
         linkText,
-        style: TextStyle(fontFamily: 'HelveticaNeue', fontSize: 16.0),
+        style: TextStyle(fontFamily: 'Metropolis', fontSize: 16.0),
       )
     ]);
   }
@@ -135,14 +135,26 @@ class _MeetingDetailsScreenState extends State<MeetingDetailsScreen> {
     return mainImageText;
   }
 
-  TextStyle _textStyle =
-      const TextStyle(fontFamily: 'HelveticaNeue', fontSize: 20.0);
-  TextStyle _notesStyle =
-      const TextStyle(fontFamily: 'HelveticaNeue', fontSize: 16.0);
-  TextStyle _typeStyle =
-      const TextStyle(fontFamily: 'HelveticaNeue', fontSize: 18.0);
-  TextStyle _headerStyle =
-      const TextStyle(fontFamily: 'HelveticaNeue', fontSize: 28.0);
+  TextStyle _textStyle = const TextStyle(
+    fontFamily: 'Metropolis',
+    fontSize: 20.0,
+    color: Color.fromRGBO(35, 40, 45, 1),
+  );
+  TextStyle _notesStyle = const TextStyle(
+    fontFamily: 'Metropolis',
+    fontSize: 16.0,
+    color: Color.fromRGBO(35, 40, 45, 1),
+  );
+  TextStyle _typeStyle = const TextStyle(
+    fontFamily: 'Metropolis',
+    fontSize: 18.0,
+    color: Color.fromRGBO(35, 40, 45, 1),
+  );
+  TextStyle _headerStyle = const TextStyle(
+    fontFamily: 'Metropolis',
+    fontSize: 28.0,
+    color: Color.fromRGBO(35, 40, 45, 1),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -151,8 +163,10 @@ class _MeetingDetailsScreenState extends State<MeetingDetailsScreen> {
     return Scaffold(
         appBar: AppBar(
             title: Text("Refuge Recovery",
-                style: TextStyle(fontFamily: "Helvetica", color: Colors.black)),
+                style:
+                    TextStyle(fontFamily: 'Metropolis', color: Colors.black)),
             backgroundColor: Color.fromRGBO(165, 132, 41, 1)),
+        backgroundColor: Color.fromRGBO(238, 236, 230, 1),
         body: Center(
           child:
               ListView(padding: const EdgeInsets.all(15.0), children: <Widget>[
@@ -221,8 +235,8 @@ class _MeetingDetailsScreenState extends State<MeetingDetailsScreen> {
                     ),
                     Text(
                       _getMainImageText(args),
-                      style: TextStyle(
-                          fontFamily: 'HelveticaNeue', fontSize: 16.0),
+                      style:
+                          TextStyle(fontFamily: 'Metropolis', fontSize: 16.0),
                     )
                   ],
                 ),

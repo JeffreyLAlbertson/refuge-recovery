@@ -47,11 +47,16 @@ class _UserSitDetailsScreenState extends State<UserSitDetailsScreen> {
   }
 
   TextStyle _textStyle =
-      const TextStyle(fontFamily: 'HelveticaNeue', fontSize: 20.0);
+      const TextStyle(fontFamily: 'Metropolis', fontSize: 20.0);
+  TextStyle _dropdownStyle =
+      const TextStyle(fontFamily: 'Metropolis', fontSize: 18.0);
 
   final String sitsUrl = 'https://refugerecoverydata.azure-api.net/api/sits';
 
   void putSit(Sit currentSit) {
+    if (currentSit.endTime == null) {
+      currentSit.endTime = currentSit.startTime;
+    }
     http
         .put(sitsUrl + '/' + currentSit.sitId,
             headers: {
@@ -67,7 +72,9 @@ class _UserSitDetailsScreenState extends State<UserSitDetailsScreen> {
   }
 
   void postSit(Sit currentSit) {
-    print(currentSit.toJson());
+    if (currentSit.endTime == null) {
+      currentSit.endTime = currentSit.startTime;
+    }
     http
         .post(sitsUrl,
             headers: {
@@ -132,21 +139,28 @@ class _UserSitDetailsScreenState extends State<UserSitDetailsScreen> {
     return Scaffold(
         appBar: AppBar(
             title: Text("Refuge Recovery",
-                style: TextStyle(fontFamily: "Helvetica", color: Colors.black)),
+                style: TextStyle(
+                    fontFamily: "Metropolis",
+                    color: Color.fromRGBO(35, 40, 45, 1),
+                    fontWeight: FontWeight.bold)),
             backgroundColor: Color.fromRGBO(165, 132, 41, 1)),
+        backgroundColor: Color.fromRGBO(238, 236, 230, 1),
         body: Center(
           child: ListView(shrinkWrap: true, children: <Widget>[
             Container(
                 alignment: Alignment(-1.0, 0.0),
+                color: Color.fromRGBO(238, 236, 230, 1),
                 padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                 child: Text('Day',
                     style: TextStyle(
-                        fontFamily: 'HelveticaNeue',
+                        fontFamily: 'Metropolis',
                         fontWeight: FontWeight.bold,
-                        fontSize: 18.0))),
+                        fontSize: 18.0,
+                        color: Color.fromRGBO(35, 40, 45, 1)))),
             Visibility(
                 visible: _isNew,
                 child: Container(
+                    color: Color.fromRGBO(238, 236, 230, 1),
                     height: 85.0,
                     padding:
                         EdgeInsets.symmetric(vertical: 10.0, horizontal: 60.0),
@@ -171,32 +185,36 @@ class _UserSitDetailsScreenState extends State<UserSitDetailsScreen> {
             Visibility(
                 visible: !_isNew,
                 child: Container(
+                    color: Color.fromRGBO(238, 236, 230, 1),
                     padding:
                         EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                     child: Text(dayFormat.format(args.startTime),
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontFamily: 'HelveticaNeue', fontSize: 28.0)))),
+                            fontFamily: 'Metropolis', fontSize: 28.0)))),
             Container(
+                color: Color.fromRGBO(238, 236, 230, 1),
                 alignment: Alignment(-1.0, 0.0),
                 padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                 child: Text('Start Time',
                     style: TextStyle(
-                        fontFamily: 'HelveticaNeue',
+                        fontFamily: 'Metropolis',
                         fontWeight: FontWeight.bold,
                         fontSize: 18.0))),
             Visibility(
                 visible: !_isNew,
                 child: Container(
+                    color: Color.fromRGBO(238, 236, 230, 1),
                     padding:
                         EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                     child: Text(timeFormat.format(args.startTime),
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontFamily: 'HelveticaNeue', fontSize: 28.0)))),
+                            fontFamily: 'Metropolis', fontSize: 28.0)))),
             Visibility(
                 visible: _isNew,
                 child: Container(
+                    color: Color.fromRGBO(238, 236, 230, 1),
                     height: 85.0,
                     padding:
                         EdgeInsets.symmetric(vertical: 10.0, horizontal: 60.0),
@@ -217,14 +235,16 @@ class _UserSitDetailsScreenState extends State<UserSitDetailsScreen> {
                         maximumYear: 2100,
                         mode: CupertinoDatePickerMode.time))),
             Container(
+                color: Color.fromRGBO(238, 236, 230, 1),
                 alignment: Alignment(-1.0, 0.0),
                 padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                 child: Text('Duration',
                     style: TextStyle(
-                        fontFamily: 'HelveticaNeue',
+                        fontFamily: 'Metropolis',
                         fontWeight: FontWeight.bold,
                         fontSize: 18.0))),
             Container(
+                color: Color.fromRGBO(238, 236, 230, 1),
                 height: 85.0,
                 padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 60.0),
                 child: CupertinoTimerPicker(
@@ -238,16 +258,18 @@ class _UserSitDetailsScreenState extends State<UserSitDetailsScreen> {
                   },
                 )),
             Container(
+                color: Color.fromRGBO(238, 236, 230, 1),
                 alignment: Alignment(-1.0, 0.0),
                 padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                 child: Text('Meditation',
                     style: TextStyle(
-                        fontFamily: 'HelveticaNeue',
+                        fontFamily: 'Metropolis',
                         fontWeight: FontWeight.bold,
                         fontSize: 18.0))),
             Visibility(
                 visible: _isNew,
                 child: Container(
+                    color: Color.fromRGBO(238, 236, 230, 1),
                     padding:
                         EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
                     child: DropdownButton<String>(
@@ -259,7 +281,7 @@ class _UserSitDetailsScreenState extends State<UserSitDetailsScreen> {
                       items: _meditations
                           .map<DropdownMenuItem<String>>((Meditation m) {
                         return DropdownMenuItem<String>(
-                            child: Text(m.name, style: _textStyle),
+                            child: Text(m.name, style: _dropdownStyle),
                             value: m.meditationId.toUpperCase());
                       }).toList(),
                       value: _currentSit.meditationId,
@@ -267,12 +289,13 @@ class _UserSitDetailsScreenState extends State<UserSitDetailsScreen> {
             Visibility(
                 visible: !_isNew,
                 child: Container(
+                    color: Color.fromRGBO(238, 236, 230, 1),
                     padding:
                         EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                     child: Text(args.name,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontFamily: 'HelveticaNeue', fontSize: 28.0)))),
+                            fontFamily: 'Metropolis', fontSize: 28.0)))),
             SizedBox(height: 10.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -293,7 +316,7 @@ class _UserSitDetailsScreenState extends State<UserSitDetailsScreen> {
                                         vertical: 10.0, horizontal: 10.0),
                                     child: Text('Really delete?',
                                         style: TextStyle(
-                                            fontFamily: 'HelveticaNeue',
+                                            fontFamily: 'Metropolis',
                                             fontWeight: FontWeight.bold,
                                             fontSize: 18.0))),
                                 Container(

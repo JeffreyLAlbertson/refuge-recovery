@@ -59,8 +59,11 @@ class _VideosScreensState extends State<VideosScreen> {
                   child: Text(v.name,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontFamily: 'HelveticaNeue',
-                          fontWeight: FontWeight.bold)))
+                        fontFamily: 'Metropolis',
+                        fontSize: 13.0,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromRGBO(35, 40, 45, 1),
+                      )))
             ],
           ),
         ));

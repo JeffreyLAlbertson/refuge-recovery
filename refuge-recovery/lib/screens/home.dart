@@ -41,25 +41,40 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
           title: Text("Refuge Recovery",
               style: TextStyle(
-                  fontFamily: "Helvetica", color: Color.fromRGBO(0, 0, 0, 1))),
+                  fontFamily: "Metropolis",
+                  backgroundColor: Color.fromRGBO(165, 132, 41, 1),
+                  color: Color.fromRGBO(35, 40, 35, 1),
+                  fontWeight: FontWeight.bold)),
           backgroundColor: Color.fromRGBO(165, 132, 41, 1)),
+      backgroundColor: Color.fromRGBO(238, 236, 230, 1),
       body: _children[_pageIndex],
       bottomNavigationBar: BottomNavigationBar(
           onTap: onTabTapped,
           currentIndex: _pageIndex,
+          backgroundColor: Color.fromRGBO(238, 236, 230, 1),
           selectedItemColor: Color.fromRGBO(165, 132, 41, 1),
-          unselectedItemColor: Colors.grey,
+          unselectedItemColor: Color.fromRGBO(35, 40, 35, 1),
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-                icon: Icon(Icons.home), title: Text('Home')),
+                backgroundColor: Color.fromRGBO(238, 236, 230, 1),
+                icon: Icon(Icons.home),
+                title: Text('Home')),
             BottomNavigationBarItem(
-                icon: Icon(Icons.video_library), title: Text('Videos')),
+                backgroundColor: Color.fromRGBO(238, 236, 230, 1),
+                icon: Icon(Icons.video_library),
+                title: Text('Videos')),
             BottomNavigationBarItem(
-                icon: Icon(Icons.people), title: Text('Meetings')),
+                backgroundColor: Color.fromRGBO(238, 236, 230, 1),
+                icon: Icon(Icons.people),
+                title: Text('Meetings')),
             BottomNavigationBarItem(
-                icon: Icon(Icons.audiotrack), title: Text('Meditations')),
+                backgroundColor: Color.fromRGBO(238, 236, 230, 1),
+                icon: Icon(Icons.audiotrack),
+                title: Text('Meditations')),
             BottomNavigationBarItem(
-                icon: Icon(Icons.history), title: Text('History')),
+                backgroundColor: Color.fromRGBO(238, 236, 230, 1),
+                icon: Icon(Icons.history),
+                title: Text('History')),
             BottomNavigationBarItem(
                 icon: Icon(Icons.menu), title: Text('Stats')),
           ]),

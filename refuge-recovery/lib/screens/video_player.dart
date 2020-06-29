@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:intl/intl.dart';
 import 'package:refugerecovery/data/video.dart';
 import 'package:video_player/video_player.dart';
@@ -22,6 +23,7 @@ class _VideosPlayerScreenState extends State<VideosPlayerScreen> {
   bool _buttonVisible = false;
   Timer _timer;
   bool _hideButton = false;
+  ScrollController scrollController = ScrollController();
 
   final DateFormat dayFormat = new DateFormat("MMMM d, yyyy");
   final DateFormat timeFormat = new DateFormat("h:mm:ss aa");
@@ -85,8 +87,11 @@ class _VideosPlayerScreenState extends State<VideosPlayerScreen> {
       appBar: AppBar(
           title: Text("Refuge Recovery",
               style: TextStyle(
-                  fontFamily: "Helvetica", color: Color.fromRGBO(0, 0, 0, 1))),
+                  fontFamily: "Metropolis",
+                  color: Color.fromRGBO(35, 40, 45, 1),
+                  fontWeight: FontWeight.bold)),
           backgroundColor: Color.fromRGBO(165, 132, 41, 1)),
+      backgroundColor: Color.fromRGBO(238, 236, 230, 1),
       body: Center(
         child: Flex(
             direction: MediaQuery.of(context).size.height >=
@@ -166,55 +171,79 @@ class _VideosPlayerScreenState extends State<VideosPlayerScreen> {
               Flexible(
                   fit: FlexFit.loose,
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(4.0),
                     child: Container(
-                        color: Colors.grey,
                         alignment: Alignment.topCenter,
                         child: Padding(
-                          padding: const EdgeInsets.all(20.0),
+                          padding: const EdgeInsets.all(0.0),
                           child: ListView(children: [
                             Text(widget.v.title,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontSize: 24.0,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'HelveticaNeue')),
+                                  fontSize: 24.0,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Metropolis',
+                                  color: Color.fromRGBO(35, 40, 45, 1),
+                                )),
                             SizedBox(height: 10.0),
                             Text("Date",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'HelveticaNeue')),
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Metropolis',
+                                  color: Color.fromRGBO(35, 40, 45, 1),
+                                )),
                             Text(dayFormat.format(widget.v.date),
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontFamily: 'HelveticaNeue')),
+                                  fontSize: 16.0,
+                                  fontFamily: 'Metropolis',
+                                  color: Color.fromRGBO(35, 40, 45, 1),
+                                )),
                             SizedBox(height: 10.0),
                             Text("Length",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'HelveticaNeue')),
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Metropolis',
+                                  color: Color.fromRGBO(35, 40, 45, 1),
+                                )),
                             Text(formatDuration(widget.v.length),
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontFamily: 'HelveticaNeue')),
+                                  fontSize: 16.0,
+                                  fontFamily: 'Metropolis',
+                                  color: Color.fromRGBO(35, 40, 45, 1),
+                                )),
                             SizedBox(height: 10.0),
                             Text("Description",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'HelveticaNeue')),
-                            Text(widget.v.description,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontFamily: 'HelveticaNeue'))
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Metropolis',
+                                  color: Color.fromRGBO(35, 40, 45, 1),
+                                )),
+                            Markdown(
+                              data: widget.v.description,
+                              controller: scrollController,
+                              styleSheet: MarkdownStyleSheet.fromTheme(
+                                      Theme.of(context))
+                                  .copyWith(
+                                      p: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          .copyWith(
+                                            fontFamily: 'Metropolis',
+                                            fontSize: 16.0,
+                                            color:
+                                                Color.fromRGBO(35, 40, 45, 1),
+                                          )),
+                              shrinkWrap: true,
+                              selectable: true,
+                            )
                           ]),
                         )),
                   ))

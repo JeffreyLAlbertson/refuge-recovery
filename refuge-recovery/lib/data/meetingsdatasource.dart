@@ -27,7 +27,7 @@ class MeetingsDataSource extends DataTableSource {
     6: 'Sat'
   };
 
-  TextStyle cellStyle = TextStyle(fontFamily: 'HelveticaNeue', fontSize: 20.0);
+  TextStyle cellStyle = TextStyle(fontFamily: 'Metropolis', fontSize: 20.0);
 
   void sort<T>(Comparable<T> getField(Meeting m), bool ascending) {
     _meetings.sort((Meeting a, Meeting b) {
@@ -87,7 +87,10 @@ class MeetingsDataSource extends DataTableSource {
     final Meeting m = _meetings[index];
 
     return DataRow.byIndex(index: index, cells: <DataCell>[
-      DataCell(Text(day[m.day], style: cellStyle), onTap: () {
+      DataCell(
+          Container(
+              color: Color.fromRGBO(238, 236, 230, 1),
+              child: Text(day[m.day], style: cellStyle)), onTap: () {
         _tapCell(m);
       }),
       DataCell(Text(m.timeFormatted, style: cellStyle), onTap: () {

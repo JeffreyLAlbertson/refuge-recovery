@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         UserSitsScreen.routeName: (context) => UserSitsScreen(),
         UserSitDetailsScreen.routeName: (context) => UserSitDetailsScreen(),
         HomeScreen.routeName: (context) => HomeScreen(0),
-        HomeScreen.routeNameHistory: (context) => HomeScreen(3)
+        HomeScreen.routeNameHistory: (context) => HomeScreen(4)
       },
     );
   }
