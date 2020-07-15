@@ -30,6 +30,13 @@ dependencies:
   intl:
   flutter_facebook_login: ^3.0.0
   flutter_markdown: ^0.4.2
+  path_provider:
+  flutter_ffmpeg:
+  carousel_slider: ^2.2.1
+  dio: ^3.0.0
+  numberpicker: ^1.2.0
+  flutter_spinkit: "^4.1.2"
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -61,20 +68,28 @@ flutter:
     - assets/facebook.png
     - assets/zoom.jpg
     - assets/www.jpg
-    - assets/meditation_audio/loving-kindness.mp3
-    - assets/meditation_audio/appreciative-joy.mp3
-    - assets/meditation_audio/forgiveness.mp3
-    - assets/meditation_audio/equanimity.mp3
-    - assets/meditation_audio/compassion.mp3
-    - assets/meditation_audio/tonglen.mp3
-    - assets/meditation_audio/mindfulness-of-the-breath-and-body.mp3
-    - assets/meditation_audio/mindfulness-of-the-feeling-tone.mp3
-    - assets/meditation_audio/mindfulness-of-the-feeling-tone-jenna.mp3
-    - assets/meditation_audio/mindfulness-of-the-mind-content.mp3
-    - assets/meditation_audio/mindfulness-of-the-mind-process.mp3
-    - assets/meditation_audio/mindfulness-of-the-truth.mp3
-    - assets/meditation_audio/mindfulness-of-breathing.mp3
-    - assets/meditation_audio/mindfulness-of-breathing-jenna.mp3
+    - assets/meditation_audio/silent/silent-1.mp3
+    - assets/meditation_audio/silent/silent-10.mp3
+    - assets/meditation_audio/silent/silent-100.mp3
+    - assets/meditation_audio/_chimes/chime.mp3
+    - assets/meditation_audio/loving-kindness/loving-kindness.mp3
+    - assets/meditation_audio/appreciative-joy/appreciative-joy.mp3
+    - assets/meditation_audio/forgiveness/forgiveness.mp3
+    - assets/meditation_audio/equanimity/equanimity.mp3
+    - assets/meditation_audio/compassion/compassion.mp3
+    - assets/meditation_audio/tonglen/tonglen.mp3
+    - assets/meditation_audio/mindfulness-of-the-breath-and-body/mindfulness-of-the-breath-and-body.mp3
+    - assets/meditation_audio/mindfulness-of-the-feeling-tone/mindfulness-of-the-feeling-tone.mp3
+    - assets/meditation_audio/mindfulness-of-the-feeling-tone/mindfulness-of-the-feeling-tone-jenna.mp3
+    - assets/meditation_audio/mindfulness-of-the-mind-content/mindfulness-of-the-mind-content.mp3
+    - assets/meditation_audio/mindfulness-of-the-mind-process/mindfulness-of-the-mind-process.mp3
+    - assets/meditation_audio/mindfulness-of-the-truth/mindfulness-of-the-truth.mp3
+    - assets/meditation_audio/mindfulness-of-breathing/mindfulness-of-breathing.mp3
+    - assets/meditation_audio/mindfulness-of-breathing/mindfulness-of-breathing-jenna.mp3
+    - assets/meditation_audio/_chimes/chime.mp3
+    - assets/meditation_audio/_chimes/end-chime.mp3
+    - assets/meditation_audio/_chimes/voice.mp3
+    - assets/meditation_audio/_chimes/end-voice.mp3
     - assets/meditation_icons/img-metta-meditation-.png
     - assets/meditation_icons/img-appreciation-meditation-.png
     - assets/meditation_icons/img-forgiveness-meditation-.png
@@ -92,6 +107,8 @@ flutter:
     - assets/meditation_icons/2.png
     - assets/meditation_icons/3.png
     - assets/meditation_icons/4.png
+    - assets/chime_photos/third_eye_chakra.png
+    - assets/chime_photos/jeffs_voice.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

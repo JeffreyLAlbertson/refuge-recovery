@@ -1,13 +1,17 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 import 'package:refugerecovery/data/meditation.dart';
 import 'package:refugerecovery/screens/readings.dart';
+import 'package:refugerecovery/screens/silent_meditation_player.dart';
 
 Future<List<Meditation>> fetchResults(http.Client client) async {
   final response = await client.get(
@@ -33,11 +37,20 @@ class _MeditationScreensState extends State<MeditationsScreen> {
   var _meditations = <Meditation>[];
   List<Widget> _meditationFlatImageButtons = <Widget>[];
 
+  createDir() async {
+    String meditationsRoot = path.join(
+        (await getApplicationDocumentsDirectory()).path, "Meditations");
+    var dir = Directory(meditationsRoot);
+    if (!await dir.exists()) {
+      dir.create();
+    }
+  }
+
   Future<List<Meditation>> getMeditations() async {
     return await fetchResults(http.Client());
   }
 
-  void _setMeditationButtons(BuildContext context) {
+  void _setMeditationButtons(context) {
     setState(() {
       _meditations.where((Meditation m) {
         return m.logoFileName != null;
@@ -45,8 +58,13 @@ class _MeditationScreensState extends State<MeditationsScreen> {
         _meditationFlatImageButtons.add(FlatButton(
           padding: EdgeInsets.all(5),
           onPressed: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => ReadingsScreen(m)));
+            if (m.name == 'Silent Meditation') {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => SilentMeditationPlayerScreen()));
+            } else {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => ReadingsScreen(m)));
+            }
           },
           child: Column(
             children: <Widget>[
@@ -74,6 +92,7 @@ class _MeditationScreensState extends State<MeditationsScreen> {
   @override
   void initState() {
     super.initState();
+    createDir();
     getMeditations().then((meditations) {
       _meditations = meditations;
       _setMeditationButtons(context);

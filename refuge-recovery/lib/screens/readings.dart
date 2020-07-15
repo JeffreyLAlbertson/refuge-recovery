@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
@@ -7,6 +8,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 import 'package:refugerecovery/data/meditation.dart';
 import 'package:refugerecovery/data/reading.dart';
 import 'package:refugerecovery/screens/meditation_player.dart';
@@ -91,7 +94,7 @@ class _ReadingsScreensState extends State<ReadingsScreen> {
     return readingButtons;
   }
 
-  setScreenBody(BuildContext context) {
+  setScreenBody(context) {
     setState(() {
       _screenBody = Center(
           child: Container(
@@ -110,9 +113,20 @@ class _ReadingsScreensState extends State<ReadingsScreen> {
     });
   }
 
+  createDir() async {
+    String meditationsRoot = path.join(
+        (await getApplicationDocumentsDirectory()).path, "Meditations");
+    String meditationDir = path.join(meditationsRoot, widget.m.folderName);
+    var dir = Directory(meditationDir);
+    if (!await dir.exists()) {
+      dir.create();
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    createDir();
     getReadings().then((readings) {
       _readings = readings;
       if (widget.m.name == 'Silent Meditation') {

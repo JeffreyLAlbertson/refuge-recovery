@@ -2,8 +2,8 @@ class Reading {
   final String readingId;
   final String meditationId;
   final String meditationName;
+  final String folderName;
   final String reader;
-  final Duration length;
   final bool isLocal;
   final String fileName;
   final String logoFileName;
@@ -13,8 +13,8 @@ class Reading {
       {this.readingId,
       this.meditationId,
       this.meditationName,
+      this.folderName,
       this.reader,
-      this.length,
       this.isLocal,
       this.fileName,
       this.logoFileName,
@@ -25,8 +25,8 @@ class Reading {
         readingId: json['readingId'],
         meditationId: json['meditationId'],
         meditationName: json['meditationName'],
+        folderName: json['folderName'],
         reader: json['reader'],
-        length: Duration(milliseconds: json['length']['totalMilliseconds']),
         isLocal: json['isLocal'],
         fileName: json['filename'],
         logoFileName: json['logoFilename'],
@@ -38,8 +38,8 @@ class Reading {
     data['readingId'] = this.readingId;
     data['meditationId'] = this.meditationId;
     data['meditationName'] = this.meditationName;
+    data['folderName'] = this.folderName;
     data['reader'] = this.reader;
-    data['length'] = this.length;
     data['isLocal'] = this.isLocal;
     data['fileName'] = this.fileName;
     data['logoFileName'] = this.logoFileName;

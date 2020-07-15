@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:refugerecovery/globals.dart' as globals;
 import 'package:refugerecovery/screens/meditations.dart';
 import 'package:refugerecovery/screens/meetings.dart';
 import 'package:refugerecovery/screens/start.dart';
@@ -22,8 +24,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    getAppDocsDirectory();
+
     _pageIndex = widget.page;
+
     super.initState();
+  }
+
+  void getAppDocsDirectory() async {
+    globals.appDocsDirectory = await getApplicationDocumentsDirectory();
   }
 
   final List<Widget> _children = [
